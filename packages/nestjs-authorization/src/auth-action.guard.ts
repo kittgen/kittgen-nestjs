@@ -4,9 +4,10 @@ import {
   Injectable,
   mixin,
 } from '@nestjs/common';
+import { Action } from './action';
 import { PermissionProvider } from './permission.provider';
 
-export const AuthActionGuard = (actions: string[]) => {
+export const AuthActionGuard = (actions: Action[]) => {
   @Injectable()
   class AuthActionGuardImpl implements CanActivate {
     constructor(private permissionProvider: PermissionProvider) {}

@@ -3,9 +3,7 @@ import { ConditionsService } from './conditions.service';
 
 @Module({
   imports: [],
-  providers: [
-    ConditionsService,
-  ],
+  providers: [ConditionsService],
   exports: [ConditionsService],
 })
 export class AuthorizationModule {}

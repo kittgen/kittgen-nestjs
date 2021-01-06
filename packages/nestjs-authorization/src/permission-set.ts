@@ -1,4 +1,5 @@
 import { ExecutionContext } from '@nestjs/common';
+import { Action } from './action';
 import { Permission } from './permission';
 
 const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
@@ -6,7 +7,13 @@ const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
   return arr.filter((_v, index) => results[index]);
 };
 
-export class PermissionSet {
+export interface PermissionSet {
+  add(permissions: Permission[]): void
+  isAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>
+  checkPermission(permission: Permission, action: Action, ctx: ExecutionContext): Promise<boolean>
+}
+
+export class DefaultPermissionSet implements PermissionSet{
   constructor(readonly permissions: Permission[] = []) {}
 
   add(permissions: Permission[]) {
@@ -14,7 +21,7 @@ export class PermissionSet {
     return this;
   }
 
-  async isAllowed(actions: string[], ctx: ExecutionContext): Promise<boolean> {
+  async isAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean> {
     const granted = await filterAsync(actions, async action => {
       const matchingPermissions = await filterAsync(
         this.permissions,
@@ -25,12 +32,16 @@ export class PermissionSet {
     return actions.length === granted.length;
   }
 
-  async checkPermission(permission: Permission, action: string, ctx: ExecutionContext): Promise<boolean> {
+  async checkPermission(
+    permission: Permission,
+    action: Action,
+    ctx: ExecutionContext
+  ): Promise<boolean> {
     if (permission.action !== action) {
       return false;
     }
     if (permission.condition) {
-      return await permission.condition.check(ctx);
+      return await permission.condition.check(ctx, {permission, action});
     }
     return true;
   }

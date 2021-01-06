@@ -1,13 +1,13 @@
 import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext } from '@nestjs/common';
-import { SimplePermission } from './permission';
-import { PermissionSet } from './permission-set';
+import { DefaultPermission } from './permission';
+import { DefaultPermissionSet } from './permission-set';
 
 describe('PermissionSet', () => {
   it('should check for actions', async () => {
-    const permissions = new PermissionSet([
-      new SimplePermission('foo'),
-      new SimplePermission('bar'),
+    const permissions = new DefaultPermissionSet([
+      new DefaultPermission('foo'),
+      new DefaultPermission('bar'),
     ]);
     const context = createMock<ExecutionContext>();
 
@@ -21,10 +21,10 @@ describe('PermissionSet', () => {
   });
 
   it('should add a permission', async () => {
-    const permissions = new PermissionSet([]);
+    const permissions = new DefaultPermissionSet([]);
     const context = createMock<ExecutionContext>();
 
-    permissions.add([new SimplePermission('foo')]);
+    permissions.add([new DefaultPermission('foo')]);
 
     expect(await permissions.isAllowed(['foo'], context)).toBeTruthy();
   });
