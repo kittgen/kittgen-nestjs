@@ -25,11 +25,7 @@ export class PermissionSet {
     return actions.length === granted.length;
   }
 
-  async checkPermission(
-    permission: Permission,
-    action: string,
-    ctx: ExecutionContext
-  ): Promise<boolean> {
+  async checkPermission(permission: Permission, action: string, ctx: ExecutionContext): Promise<boolean> {
     if (permission.action !== action) {
       return false;
     }

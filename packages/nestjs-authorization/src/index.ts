@@ -5,5 +5,5 @@ export { Condition, AbstractCondition } from './condition';
 export { ConditionsService } from './conditions.service';
 export { PermissionSet } from './permission-set';
 export { AbstractPermissionProvider, PermissionProvider } from './permission.provider';
-export { NopPermissionProvider } from './nop-permission-provider';
+export { NoopPermissionProvider } from './noop-permission-provider';
 export { Permission, SimplePermission } from './permission';
