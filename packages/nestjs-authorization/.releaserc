@@ -1,0 +1,20 @@
+{
+  "branches": ["main"],
+  "tagFormat": "nestjs-authorization-v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    ["@semantic-release/git", {
+      "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
+      "message": "chore(release): nestjs-authorziation ${nextRelease.version}\n\n${nextRelease.notes}"
+    }],
+    ["@semantic-release/github", {
+       "assets": [
+        {"path": "dist"}
+      ]
+    }]
+    ],
+    "repositoryUrl": "https://github.com/kittgen/nestjs-monorepo-starter"
+}

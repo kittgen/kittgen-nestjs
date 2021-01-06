@@ -1,0 +1,42 @@
+name: ci-nestjs-authorization
+
+on:
+  push:
+    paths:
+      - 'packages/nestjs-authorization/**'
+    branches:
+      - main
+  pull_request:
+      - 'packages/nestjs-authorization/**'
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: packages/nestjs-authorization
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: load cache
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: npm test
+        run: npm test
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
