@@ -34,9 +34,5 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: npm test
         run: npm test
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

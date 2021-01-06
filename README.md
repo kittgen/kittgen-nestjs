@@ -1,4 +1,4 @@
-# Kittgen. For nestjs.
+# Kittgen. For Nestjs.
 
 ## Description
 Kittgen is a set of libraries and code generators. In this repository you can find all things related to [Nestjs](https://nestjs.com/).
