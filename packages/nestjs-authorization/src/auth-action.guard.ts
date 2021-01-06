@@ -17,6 +17,7 @@ export const AuthActionGuard = (actions: string[]) => {
       const permissionsOfUser = await this.permissionProvider.findPermissions(
         req.user
       );
+      
       const permissionSet = new PermissionSet(permissionsOfUser);
       return permissionSet.isAllowed(actions, context);
     }
