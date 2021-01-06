@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   mixin,
 } from '@nestjs/common';
@@ -10,7 +11,7 @@ import { PermissionProvider } from './permission.provider';
 export const AuthActionGuard = (actions: Action[]) => {
   @Injectable()
   class AuthActionGuardImpl implements CanActivate {
-    constructor(private permissionProvider: PermissionProvider) {}
+    constructor(@Inject('PERMISSION_PROVIDER') private permissionProvider: PermissionProvider) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const req = context.switchToHttp().getRequest();

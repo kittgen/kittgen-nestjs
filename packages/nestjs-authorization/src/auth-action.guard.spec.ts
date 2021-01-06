@@ -77,7 +77,7 @@ describe('AuthActionGuard', () => {
         AlwaysFalseCondition,
         AlwaysTrueCondition,
         {
-          provide: TestPermissionProivider,
+          provide: 'PERMISSION_PROVIDER',
           inject: [ConditionService],
           useFactory: (conditionsService: ConditionService) => {
             return new TestPermissionProivider(conditionsService)
