@@ -7,7 +7,7 @@ import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { AbstractCondition } from './condition';
 import { ConditionsService } from './conditions.service';
 import { AbstractPermissionProvider } from './permission.provider';
-import { PermissionSet } from 'permission-set';
+import { PermissionSet } from './permission-set';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
