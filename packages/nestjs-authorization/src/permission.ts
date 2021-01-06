@@ -1,8 +1,8 @@
 import { Condition } from './condition';
 
 export interface Permission {
-  action: string;
-  condition?: Condition;
+  readonly action: string;
+  readonly condition?: Condition;
 }
 
 export class DefaultPermission implements Permission {

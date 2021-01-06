@@ -1,1 +1,1 @@
-export type Action = string
+export type Action = string;

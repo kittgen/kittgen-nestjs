@@ -8,5 +8,8 @@ export {
   AbstractPermissionProvider,
   PermissionProvider,
 } from './permission.provider';
-export { NoopPermissionProvider } from './noop-permission-provider'
-export { Permission, DefaultPermission as SimplePermission } from './permission';
+export { NoopPermissionProvider } from './noop-permission-provider';
+export {
+  Permission,
+  DefaultPermission as SimplePermission,
+} from './permission';

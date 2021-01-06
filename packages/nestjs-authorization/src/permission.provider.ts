@@ -1,4 +1,4 @@
-import { DefaultPermissionSet } from 'permission-set';
+import { DefaultPermissionSet } from './permission-set';
 
 export interface PermissionProvider {
   getPermissionSetForUser(user: any): Promise<DefaultPermissionSet>;

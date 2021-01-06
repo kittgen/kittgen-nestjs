@@ -8,12 +8,16 @@ const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
 };
 
 export interface PermissionSet {
-  add(permissions: Permission[]): void
-  isAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>
-  checkPermission(permission: Permission, action: Action, ctx: ExecutionContext): Promise<boolean>
+  add(permissions: Permission[]): void;
+  areAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>;
+  checkPermission(
+    permission: Permission,
+    action: Action,
+    ctx: ExecutionContext
+  ): Promise<boolean>;
 }
 
-export class DefaultPermissionSet implements PermissionSet{
+export class DefaultPermissionSet implements PermissionSet {
   constructor(readonly permissions: Permission[] = []) {}
 
   add(permissions: Permission[]) {
@@ -21,7 +25,7 @@ export class DefaultPermissionSet implements PermissionSet{
     return this;
   }
 
-  async isAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean> {
+  async areAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean> {
     const granted = await filterAsync(actions, async action => {
       const matchingPermissions = await filterAsync(
         this.permissions,
@@ -41,7 +45,7 @@ export class DefaultPermissionSet implements PermissionSet{
       return false;
     }
     if (permission.condition) {
-      return await permission.condition.check(ctx, {permission, action});
+      return await permission.condition.check(ctx, { permission, action });
     }
     return true;
   }

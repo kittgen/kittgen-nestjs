@@ -4,13 +4,16 @@ import { Permission } from './permission';
 import { ConditionsService } from './conditions.service';
 
 export interface ConditionContext {
-  permission: Permission
-  action: Action
+  readonly permission: Permission;
+  readonly action: Action;
 }
 
 export interface Condition {
   id: string;
-  check(ctx: ExecutionContext, conditionCtx: ConditionContext): Promise<boolean>;
+  check(
+    ctx: ExecutionContext,
+    conditionCtx: ConditionContext
+  ): Promise<boolean>;
 }
 
 @Injectable()
@@ -23,5 +26,8 @@ export abstract class AbstractCondition implements Condition {
     return this.constructor.name;
   }
 
-  abstract check(ctx: ExecutionContext, conditionCtx: ConditionContext): Promise<boolean>;
+  abstract check(
+    ctx: ExecutionContext,
+    conditionCtx: ConditionContext
+  ): Promise<boolean>;
 }

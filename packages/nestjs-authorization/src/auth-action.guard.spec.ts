@@ -38,7 +38,9 @@ describe('AuthActionGuard', () => {
           inject: [ConditionsService],
           useFactory: (conditionsService: ConditionsService) => {
             return {
-              getPermissionSetForUser(user: any): Promise<DefaultPermissionSet> {
+              getPermissionSetForUser(
+                user: any
+              ): Promise<DefaultPermissionSet> {
                 switch (user.id) {
                   case 'uid-1':
                     return Promise.resolve(
