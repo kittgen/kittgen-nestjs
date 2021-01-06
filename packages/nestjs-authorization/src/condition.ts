@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Action } from './action';
 import { Permission } from './permission';
-import { ConditionsService } from './conditions.service';
+import { ConditionService } from './condition.service';
 
 export interface ConditionContext {
   readonly permission: Permission;
@@ -18,7 +18,7 @@ export interface Condition {
 
 @Injectable()
 export abstract class AbstractCondition implements Condition {
-  constructor(conditionsService: ConditionsService) {
+  constructor(conditionsService: ConditionService) {
     conditionsService.register(this);
   }
 

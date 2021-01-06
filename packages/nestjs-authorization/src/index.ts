@@ -2,12 +2,9 @@ export { AuthAction } from './auth-action.decorator';
 export { AuthActionGuard } from './auth-action.guard';
 export { AuthorizationModule } from './authorization.module';
 export { Condition, AbstractCondition } from './condition';
-export { ConditionsService } from './conditions.service';
+export { ConditionService as ConditionsService } from './condition.service';
 export { DefaultPermissionSet, PermissionSet } from './permission-set';
-export {
-  AbstractPermissionProvider,
-  PermissionProvider,
-} from './permission.provider';
+export { PermissionProvider, AbstractPermissionProvider } from './permission.provider';
 export { NoopPermissionProvider } from './noop-permission-provider';
 export {
   Permission,
