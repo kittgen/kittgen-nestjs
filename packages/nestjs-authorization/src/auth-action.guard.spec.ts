@@ -41,7 +41,7 @@ describe('AuthActionGuard', () => {
               getPermissionSetForUser(user: any): Promise<PermissionSet> {
                 switch (user.id) {
                   case 'uid-1':
-                    return Promise.resolve(new PermissionSet([new SimplePermission('read')]);
+                    return Promise.resolve(new PermissionSet([new SimplePermission('read')]));
                   case 'uid-2':
                     return Promise.resolve(new PermissionSet([new SimplePermission('write')]));
                   case 'uid-3':
