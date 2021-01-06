@@ -5,7 +5,6 @@ import {
   mixin,
 } from '@nestjs/common';
 import { PermissionProvider } from './permission.provider';
-import { PermissionSet } from './permission-set';
 
 export const AuthActionGuard = (actions: string[]) => {
   @Injectable()
@@ -14,11 +13,9 @@ export const AuthActionGuard = (actions: string[]) => {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const req = context.switchToHttp().getRequest();
-      const permissionsOfUser = await this.permissionProvider.findPermissions(
+      const permissionSet = await this.permissionProvider.getPermissionSetForUser(
         req.user
       );
-      
-      const permissionSet = new PermissionSet(permissionsOfUser);
       return permissionSet.isAllowed(actions, context);
     }
   }

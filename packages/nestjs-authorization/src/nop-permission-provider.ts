@@ -1,8 +1,8 @@
-import { Permission } from './permission';
-import { PermissionProvider } from './permission.provider';
+import { PermissionSet } from 'permission-set';
+import { AbstractPermissionProvider } from './permission.provider';
 
-export class NopPermissionProvider implements PermissionProvider {
-  findPermissions(_user: any): Promise<Permission[]> {
-    throw new Error('Method not implemented.');
+export class NoopPermissionProvider implements AbstractPermissionProvider {
+  getPermissionSetForUser(_user: any): Promise<PermissionSet> {
+    return Promise.resolve(new PermissionSet())
   }
 }

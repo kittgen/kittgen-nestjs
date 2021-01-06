@@ -1,15 +1,16 @@
 import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { Permission } from './permission';
+import { SimplePermission } from './permission';
 import { AuthActionGuard } from './auth-action.guard';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Condition } from './condition';
+import { AbstractCondition } from './condition';
 import { ConditionsService } from './conditions.service';
-import { PermissionProvider } from './permission.provider';
+import { AbstractPermissionProvider } from './permission.provider';
+import { PermissionSet } from 'permission-set';
 
 @Injectable()
-class AlwaysTrueCondition extends Condition {
+class AlwaysTrueCondition extends AbstractCondition {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(true);
@@ -17,7 +18,7 @@ class AlwaysTrueCondition extends Condition {
 }
 
 @Injectable()
-class AlwaysFalseCondition extends Condition {
+class AlwaysFalseCondition extends AbstractCondition {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(false);
@@ -33,32 +34,32 @@ describe('AuthActionGuard', () => {
         AlwaysFalseCondition,
         AlwaysTrueCondition,
         {
-          provide: PermissionProvider,
+          provide: AbstractPermissionProvider,
           inject: [ConditionsService],
           useFactory: (conditionsService: ConditionsService) => {
             return {
-              findPermissions(user: any): Promise<Permission[]> {
+              getPermissionSetForUser(user: any): Promise<PermissionSet> {
                 switch (user.id) {
                   case 'uid-1':
-                    return Promise.resolve([new Permission('read')]);
+                    return Promise.resolve(new PermissionSet([new SimplePermission('read')]);
                   case 'uid-2':
-                    return Promise.resolve([new Permission('write')]);
+                    return Promise.resolve(new PermissionSet([new SimplePermission('write')]));
                   case 'uid-3':
-                    return Promise.resolve([
-                      new Permission(
+                    return Promise.resolve(new PermissionSet([
+                      new SimplePermission(
                         'write',
                         conditionsService.find(AlwaysFalseCondition.name)
                       ),
-                    ]);
+                    ]));
                   case 'uid-4':
-                    return Promise.resolve([
-                      new Permission(
+                    return Promise.resolve(new PermissionSet([
+                      new SimplePermission(
                         'write',
                         conditionsService.find(AlwaysTrueCondition.name)
                       ),
-                    ]);
+                    ]));
                   default:
-                    return Promise.resolve([]);
+                    return Promise.resolve(new PermissionSet());
                 }
               },
             };

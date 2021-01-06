@@ -1,5 +1,10 @@
 import { Condition } from './condition';
 
-export class Permission {
+export interface Permission {
+  action: string
+  condition?: Condition
+}
+
+export class SimplePermission implements Permission {
   constructor(readonly action: string, readonly condition?: Condition) {}
 }

@@ -1,5 +1,9 @@
-import { Permission } from './permission';
+import { PermissionSet } from 'permission-set';
 
-export abstract class PermissionProvider {
-  abstract findPermissions(user: any): Promise<Permission[]>;
+export interface PermissionProvider {
+  getPermissionSetForUser(user: any) : Promise<PermissionSet>
+}
+
+export abstract class AbstractPermissionProvider implements PermissionProvider {
+  abstract getPermissionSetForUser(user: any): Promise<PermissionSet>;
 }
