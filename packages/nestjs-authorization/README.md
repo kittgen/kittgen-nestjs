@@ -9,6 +9,7 @@ Permission based authorization for Nestjs.
 TODO
 
 ### Annotate your controllers
+
 ```ts
 @Get(':id')
 @AuthAction([ArticleAuthAction.Read])
