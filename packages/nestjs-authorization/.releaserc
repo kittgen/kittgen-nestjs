@@ -10,11 +10,7 @@
       "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
       "message": "chore(release): nestjs-authorziation ${nextRelease.version}\n\n${nextRelease.notes}"
     }],
-    ["@semantic-release/github", {
-       "assets": [
-        {"path": "dist"}
-      ]
-    }]
-    ],
-    "repositoryUrl": "https://github.com/kittgen/nestjs-monorepo-starter"
+    "@semantic-release/github"
+  ],
+  "repositoryUrl": "https://github.com/kittgen/kittgen-nestjs"
 }
