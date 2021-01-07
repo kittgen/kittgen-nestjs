@@ -1,9 +1,24 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { ConditionsService } from './conditions.service';
+import { Action } from './action';
+import { Permission } from './permission';
+import { ConditionService } from './condition.service';
+
+export interface ConditionContext {
+  readonly permission: Permission;
+  readonly action: Action;
+}
+
+export interface Condition {
+  id: string;
+  check(
+    ctx: ExecutionContext,
+    conditionCtx: ConditionContext
+  ): Promise<boolean>;
+}
 
 @Injectable()
-export abstract class Condition {
-  constructor(conditionsService: ConditionsService) {
+export abstract class AbstractCondition implements Condition {
+  constructor(conditionsService: ConditionService) {
     conditionsService.register(this);
   }
 
@@ -11,5 +26,8 @@ export abstract class Condition {
     return this.constructor.name;
   }
 
-  abstract check(ctx: ExecutionContext): Promise<boolean>;
+  abstract check(
+    ctx: ExecutionContext,
+    conditionCtx: ConditionContext
+  ): Promise<boolean>;
 }

@@ -5,14 +5,24 @@
   "author": "Ottgar",
   "private": false,
   "description": "Kittgen Nestjs Authorization. Library to do permission based authorization.",
-  "keywords": ["authorization", "permission", "condition", "library", "nest", "nestjs"],
-  "contributors": ["Otto von Wesendonk", "Edgar Mueller"],
+  "keywords": [
+    "authorization",
+    "permission",
+    "condition",
+    "library",
+    "nest",
+    "nestjs"
+  ],
+  "contributors": [
+    "Otto von Wesendonk",
+    "Edgar Mueller"
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/kittgen/kittgen-nestjs.git"
+    "type": "git",
+    "url": "https://github.com/kittgen/kittgen-nestjs.git"
   },
-  "bugs": { 
-    "url" : "https://github.com/kittgen/kittgen-nestjs/issues"
+  "bugs": {
+    "url": "https://github.com/kittgen/kittgen-nestjs/issues"
   },
   "main": "dist/index.js",
   "module": "dist/nestjs-authorization.esm.js",

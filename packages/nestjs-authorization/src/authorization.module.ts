@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConditionsService } from './conditions.service';
+import { ConditionService } from './condition.service';
 
 @Module({
   imports: [],
-  providers: [
-    ConditionsService,
-  ],
-  exports: [ConditionsService],
+  providers: [ConditionService],
+  exports: [ConditionService],
 })
 export class AuthorizationModule {}

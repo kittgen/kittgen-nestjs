@@ -1,15 +1,16 @@
 import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { Permission } from './permission';
+import { DefaultPermission } from './permission';
 import { AuthActionGuard } from './auth-action.guard';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Condition } from './condition';
-import { ConditionsService } from './conditions.service';
-import { PermissionProvider } from './permission.provider';
+import { AbstractCondition } from './condition';
+import { ConditionService } from './condition.service';
+import { AbstractPermissionProvider } from './permission.provider';
+import { DefaultPermissionSet } from './permission-set';
 
 @Injectable()
-class AlwaysTrueCondition extends Condition {
+class AlwaysTrueCondition extends AbstractCondition {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(true);
@@ -17,56 +18,74 @@ class AlwaysTrueCondition extends Condition {
 }
 
 @Injectable()
-class AlwaysFalseCondition extends Condition {
+class AlwaysFalseCondition extends AbstractCondition {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(false);
   }
 }
 
+class TestPermissionProivider extends AbstractPermissionProvider {
+
+  constructor(readonly conditionService: ConditionService) {
+    super()
+  }
+
+  getPermissionSet(
+    req: any
+  ): Promise<DefaultPermissionSet> {
+    switch (req.user.id) {
+      case 'uid-1':
+        return Promise.resolve(
+          new DefaultPermissionSet([new DefaultPermission('read')])
+        );
+      case 'uid-2':
+        return Promise.resolve(
+          new DefaultPermissionSet([new DefaultPermission('write')])
+        );
+      case 'uid-3':
+        return Promise.resolve(
+          new DefaultPermissionSet([
+            new DefaultPermission(
+              'write',
+              this.conditionService.find(AlwaysFalseCondition.name)
+            ),
+          ])
+        );
+      case 'uid-4':
+        return Promise.resolve(
+          new DefaultPermissionSet([
+            new DefaultPermission(
+              'write',
+              this.conditionService.find(AlwaysTrueCondition.name)
+            ),
+          ])
+        );
+      default:
+        return Promise.resolve(new DefaultPermissionSet());
+    }
+  }
+}
+
 describe('AuthActionGuard', () => {
-  function createTestModule(permissions: string[]) {
+
+  function createTestModule(actions: string[]) {
     return Test.createTestingModule({
       imports: [],
       providers: [
-        ConditionsService,
+        ConditionService,
         AlwaysFalseCondition,
         AlwaysTrueCondition,
         {
-          provide: PermissionProvider,
-          inject: [ConditionsService],
-          useFactory: (conditionsService: ConditionsService) => {
-            return {
-              findPermissions(user: any): Promise<Permission[]> {
-                switch (user.id) {
-                  case 'uid-1':
-                    return Promise.resolve([new Permission('read')]);
-                  case 'uid-2':
-                    return Promise.resolve([new Permission('write')]);
-                  case 'uid-3':
-                    return Promise.resolve([
-                      new Permission(
-                        'write',
-                        conditionsService.find(AlwaysFalseCondition.name)
-                      ),
-                    ]);
-                  case 'uid-4':
-                    return Promise.resolve([
-                      new Permission(
-                        'write',
-                        conditionsService.find(AlwaysTrueCondition.name)
-                      ),
-                    ]);
-                  default:
-                    return Promise.resolve([]);
-                }
-              },
-            };
-          },
+          provide: 'PERMISSION_PROVIDER',
+          inject: [ConditionService],
+          useFactory: (conditionsService: ConditionService) => {
+            return new TestPermissionProivider(conditionsService)
+          }
         },
         {
           provide: 'GUARD',
-          useClass: AuthActionGuard(permissions),
+          useClass: AuthActionGuard(actions),
         },
       ],
     }).compile();

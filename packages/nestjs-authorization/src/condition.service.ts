@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Condition } from './condition';
 
 @Injectable()
-export class ConditionsService {
+export class ConditionService {
   private conditionsById: Map<string, Condition>;
 
   constructor() {

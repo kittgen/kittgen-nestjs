@@ -1,24 +1,24 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   mixin,
 } from '@nestjs/common';
+import { Action } from './action';
 import { PermissionProvider } from './permission.provider';
-import { PermissionSet } from './permission-set';
 
-export const AuthActionGuard = (actions: string[]) => {
+export const AuthActionGuard = (actions: Action[]) => {
   @Injectable()
   class AuthActionGuardImpl implements CanActivate {
-    constructor(private permissionProvider: PermissionProvider) {}
+    constructor(@Inject('PERMISSION_PROVIDER') private permissionProvider: PermissionProvider) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const req = context.switchToHttp().getRequest();
-      const permissionsOfUser = await this.permissionProvider.findPermissions(
-        req.user
+      const permissionSet = await this.permissionProvider.getPermissionSet(
+        req
       );
-      const permissionSet = new PermissionSet(permissionsOfUser);
-      return permissionSet.isAllowed(actions, context);
+      return permissionSet.areAllowed(actions, context);
     }
   }
 
