@@ -25,16 +25,16 @@ class AlwaysFalseCondition extends AbstractCondition {
   }
 }
 
-class TestPermissionProivider extends AbstractPermissionProvider { 
-  
+class TestPermissionProivider extends AbstractPermissionProvider {
+
   constructor(readonly conditionService: ConditionService) {
     super()
   }
-  
-  getPermissionSetForUser(
-    user: any
+
+  getPermissionSet(
+    req: any
   ): Promise<DefaultPermissionSet> {
-    switch (user.id) {
+    switch (req.user.id) {
       case 'uid-1':
         return Promise.resolve(
           new DefaultPermissionSet([new DefaultPermission('read')])
