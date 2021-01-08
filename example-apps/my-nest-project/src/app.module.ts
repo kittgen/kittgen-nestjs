@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthorizationModule, NopPermissionProvider, PermissionProvider } from '@kittgen/nestjs-authorization';
+import { AbstractPermissionProvider, AuthorizationModule, NoopPermissionProvider } from '@kittgen/nestjs-authorization';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -7,8 +7,8 @@ import { AppService } from './app.service';
   imports: [AuthorizationModule],
   controllers: [AppController],
   providers: [AppService, {
-    provide: PermissionProvider,
-    useClass: NopPermissionProvider
+    provide: AbstractPermissionProvider,
+    useClass: NoopPermissionProvider
   }],
 })
 export class AppModule {}

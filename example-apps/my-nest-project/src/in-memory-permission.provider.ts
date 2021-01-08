@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { Permission } from '@kittgen/nestjs-authorization';
-import { AbstractPermissionProvider, PermissionSet } from '@kittgen/nestjs-authorization';
+import { AbstractPermissionProvider, SimplePermissionSet, PermissionSet, SimplePermission } from '@kittgen/nestjs-authorization';
 
 @Injectable()
 export class InMemoryPermissionProvider extends AbstractPermissionProvider {
-  async getPermissionSetForUser(user: any): Promise<PermissionSet> {
-    if (user.id === 'uid-1') {
-      return Promise.resolve(new PermissionSet([new Permission('read-article')]));
+  async getPermissionSet(req: any): Promise<PermissionSet> {
+    if (req.user.id === 'uid-1') {
+      return Promise.resolve(new SimplePermissionSet([new SimplePermission('read-article')]));
     }
-    return Promise.resolve(new PermissionSet([
-      new Permission('read-article'),
-      new Permission('update-article'),
+    return Promise.resolve(new SimplePermissionSet([
+      new SimplePermission('read-article'),
+      new SimplePermission('update-article'),
     ]));
   }
 }

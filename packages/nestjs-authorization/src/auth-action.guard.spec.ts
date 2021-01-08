@@ -1,13 +1,13 @@
 import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { DefaultPermission } from './permission';
+import { SimplePermission } from './permission';
 import { AuthActionGuard } from './auth-action.guard';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { AbstractCondition } from './condition';
 import { ConditionService } from './condition.service';
 import { AbstractPermissionProvider } from './permission.provider';
-import { DefaultPermissionSet } from './permission-set';
+import { SimplePermissionSet } from './permission-set';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
@@ -26,27 +26,24 @@ class AlwaysFalseCondition extends AbstractCondition {
 }
 
 class TestPermissionProivider extends AbstractPermissionProvider {
-
   constructor(readonly conditionService: ConditionService) {
-    super()
+    super();
   }
 
-  getPermissionSet(
-    req: any
-  ): Promise<DefaultPermissionSet> {
+  getPermissionSet(req: any): Promise<SimplePermissionSet> {
     switch (req.user.id) {
       case 'uid-1':
         return Promise.resolve(
-          new DefaultPermissionSet([new DefaultPermission('read')])
+          new SimplePermissionSet([new SimplePermission('read')])
         );
       case 'uid-2':
         return Promise.resolve(
-          new DefaultPermissionSet([new DefaultPermission('write')])
+          new SimplePermissionSet([new SimplePermission('write')])
         );
       case 'uid-3':
         return Promise.resolve(
-          new DefaultPermissionSet([
-            new DefaultPermission(
+          new SimplePermissionSet([
+            new SimplePermission(
               'write',
               this.conditionService.find(AlwaysFalseCondition.name)
             ),
@@ -54,21 +51,20 @@ class TestPermissionProivider extends AbstractPermissionProvider {
         );
       case 'uid-4':
         return Promise.resolve(
-          new DefaultPermissionSet([
-            new DefaultPermission(
+          new SimplePermissionSet([
+            new SimplePermission(
               'write',
               this.conditionService.find(AlwaysTrueCondition.name)
             ),
           ])
         );
       default:
-        return Promise.resolve(new DefaultPermissionSet());
+        return Promise.resolve(new SimplePermissionSet());
     }
   }
 }
 
 describe('AuthActionGuard', () => {
-
   function createTestModule(actions: string[]) {
     return Test.createTestingModule({
       imports: [],
@@ -80,8 +76,8 @@ describe('AuthActionGuard', () => {
           provide: 'PERMISSION_PROVIDER',
           inject: [ConditionService],
           useFactory: (conditionsService: ConditionService) => {
-            return new TestPermissionProivider(conditionsService)
-          }
+            return new TestPermissionProivider(conditionsService);
+          },
         },
         {
           provide: 'GUARD',
