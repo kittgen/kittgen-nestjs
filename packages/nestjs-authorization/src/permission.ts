@@ -5,6 +5,6 @@ export interface Permission {
   readonly condition?: Condition;
 }
 
-export class DefaultPermission implements Permission {
+export class SimplePermission implements Permission {
   constructor(readonly action: string, readonly condition?: Condition) {}
 }

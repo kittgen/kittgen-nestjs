@@ -17,7 +17,7 @@ export interface PermissionSet {
   ): Promise<boolean>;
 }
 
-export class DefaultPermissionSet implements PermissionSet {
+export class SimplePermissionSet implements PermissionSet {
   constructor(readonly permissions: Permission[] = []) {}
 
   add(permissions: Permission[]) {
