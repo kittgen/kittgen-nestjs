@@ -1,5 +1,5 @@
 import { AuthAction, CreateAction } from '@kittgen/nestjs-authorization';
-import { Body, Controller, Put } from '@nestjs/common';
+import { Body, Controller, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
 import { CreateHelloDto as UpdateArticleDto } from './update-article.dto';
@@ -19,6 +19,7 @@ export class AppController {
     ArticleAction.Admin.if(ctx => ctx.switchToHttp().getRequest().body.published === true),
     ArticleAction.Write.if(IsAuthor)
   ])
+  @UsePipes(new ValidationPipe())
   getHello(@Body() updateArtcileDto: UpdateArticleDto): string {
     return this.appService.getHello();
   }

@@ -15,8 +15,6 @@ export class IsAuthor extends AbstractCondition {
 
   async check(ctx: ExecutionContext, conditionCtx: ConditionContext): Promise<boolean> {
     const req = ctx.switchToHttp().getRequest();
-    console.log(typeof req.body.authorId)
-    console.log(req.body.authorId === 1);
     return req.body.authorId === 1;
   }
 }
