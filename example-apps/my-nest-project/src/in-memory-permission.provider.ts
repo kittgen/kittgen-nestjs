@@ -5,11 +5,14 @@ import { AbstractPermissionProvider, SimplePermissionSet, PermissionSet, SimpleP
 export class InMemoryPermissionProvider extends AbstractPermissionProvider {
   async getPermissionSet(req: any): Promise<PermissionSet> {
     if (req.user.id === 'uid-1') {
-      return Promise.resolve(new SimplePermissionSet([new SimplePermission('read-article')]));
+      return Promise.resolve(new SimplePermissionSet(
+        [
+          new SimplePermission('read-article'),
+        ]));
     }
     return Promise.resolve(new SimplePermissionSet([
       new SimplePermission('read-article'),
-      new SimplePermission('update-article'),
+      new SimplePermission('write-article'),
     ]));
   }
 }

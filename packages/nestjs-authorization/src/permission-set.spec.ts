@@ -11,9 +11,9 @@ describe('PermissionSet', () => {
     ]);
     const context = createMock<ExecutionContext>();
 
-    expect(await permissions.areAllowed(['foo'], context)).toBeTruthy();
-    expect(await permissions.areAllowed(['bar'], context)).toBeTruthy();
-    expect(await permissions.areAllowed(['baz'], context)).toBeFalsy();
+    expect(await permissions.isAllowed('foo', context)).toBeTruthy();
+    expect(await permissions.isAllowed('bar', context)).toBeTruthy();
+    expect(await permissions.isAllowed('baz', context)).toBeFalsy();
     expect(await permissions.areAllowed(['foo', 'bar'], context)).toBeTruthy();
     expect(
       await permissions.areAllowed(['foo', 'bar', 'baz'], context)

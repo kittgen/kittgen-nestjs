@@ -4,17 +4,29 @@ import { Permission } from './permission';
 import { ConditionService } from './condition.service';
 
 export interface ConditionContext {
-  readonly permission: Permission;
+  readonly permission: Permission | undefined;
   readonly action: Action;
 }
 
 export interface Condition {
-  id: string;
+  readonly id: string;
   check(
     ctx: ExecutionContext,
     conditionCtx: ConditionContext
   ): Promise<boolean>;
 }
+
+export type FunctionalCondition = (ctx: any) => boolean;
+
+export const isFunctionalCondition = (
+  condition: any
+): condition is FunctionalCondition => {
+  if (!condition) {
+    return false;
+  }
+  // FIXME sloppy
+  return Reflect.getOwnMetadataKeys(condition).length !== 2;
+};
 
 @Injectable()
 export abstract class AbstractCondition implements Condition {

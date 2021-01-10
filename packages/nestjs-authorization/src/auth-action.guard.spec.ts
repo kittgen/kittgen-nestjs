@@ -3,11 +3,12 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { SimplePermission } from './permission';
 import { AuthActionGuard } from './auth-action.guard';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import { HttpArgumentsHost, INestApplication } from '@nestjs/common/interfaces';
 import { AbstractCondition } from './condition';
 import { ConditionService } from './condition.service';
 import { AbstractPermissionProvider } from './permission.provider';
 import { SimplePermissionSet } from './permission-set';
+import { Action, CreateAction } from './action';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
@@ -23,6 +24,12 @@ class AlwaysFalseCondition extends AbstractCondition {
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(false);
   }
+}
+
+class TestActions {
+  static Read = CreateAction('read');
+  static Write = CreateAction('write');
+  static Admin = CreateAction('all');
 }
 
 class TestPermissionProivider extends AbstractPermissionProvider {
@@ -45,7 +52,7 @@ class TestPermissionProivider extends AbstractPermissionProvider {
           new SimplePermissionSet([
             new SimplePermission(
               'write',
-              this.conditionService.find(AlwaysFalseCondition.name)
+              this.conditionService.findById(AlwaysFalseCondition.name)
             ),
           ])
         );
@@ -54,7 +61,7 @@ class TestPermissionProivider extends AbstractPermissionProvider {
           new SimplePermissionSet([
             new SimplePermission(
               'write',
-              this.conditionService.find(AlwaysTrueCondition.name)
+              this.conditionService.findById(AlwaysTrueCondition.name)
             ),
           ])
         );
@@ -64,98 +71,123 @@ class TestPermissionProivider extends AbstractPermissionProvider {
   }
 }
 
+const initApp = async (actions: Action[]): Promise<INestApplication> => {
+  const app = (await createTestModule(actions)).createNestApplication();
+  await app.init();
+  return app;
+};
+
+const createMockContext = (req: any) =>
+  createMock<ExecutionContext>({
+    switchToHttp: () =>
+      createMock<HttpArgumentsHost>({
+        getRequest: () => req,
+      }),
+  });
+
+function createTestModule(actions: Action[]) {
+  return Test.createTestingModule({
+    imports: [],
+    providers: [
+      ConditionService,
+      AlwaysFalseCondition,
+      AlwaysTrueCondition,
+      {
+        provide: 'PERMISSION_PROVIDER',
+        inject: [ConditionService],
+        useFactory: (conditionsService: ConditionService) => {
+          return new TestPermissionProivider(conditionsService);
+        },
+      },
+      {
+        provide: 'GUARD',
+        useClass: AuthActionGuard(actions),
+      },
+    ],
+  }).compile();
+}
+
 describe('AuthActionGuard', () => {
-  function createTestModule(actions: string[]) {
-    return Test.createTestingModule({
-      imports: [],
-      providers: [
-        ConditionService,
-        AlwaysFalseCondition,
-        AlwaysTrueCondition,
-        {
-          provide: 'PERMISSION_PROVIDER',
-          inject: [ConditionService],
-          useFactory: (conditionsService: ConditionService) => {
-            return new TestPermissionProivider(conditionsService);
-          },
-        },
-        {
-          provide: 'GUARD',
-          useClass: AuthActionGuard(actions),
-        },
-      ],
-    }).compile();
-  }
-
   it('canActivate should return false if user has NOT permission', async () => {
-    const app = (await createTestModule(['write'])).createNestApplication();
-    await app.init();
-    const policyGuard = await app.resolve('GUARD');
-    const context = createMock<ExecutionContext>({
-      switchToHttp: () =>
-        createMock<HttpArgumentsHost>({
-          getRequest: () => ({
-            user: {
-              id: 'uid-1',
-            },
-          }),
-        }),
-    });
+    const app = await initApp(['write']);
+    const guard = await app.get('GUARD');
+    const context = createMockContext({ user: { id: 'uid-1' } });
 
-    expect(await policyGuard.canActivate(context)).toBeFalsy();
+    expect(await guard.canActivate(context)).toBeFalsy();
   });
 
   it('canActivate should return true if user has permission', async () => {
-    const app = (await createTestModule(['write'])).createNestApplication();
-    await app.init();
-    const policyGuard = await app.resolve('GUARD');
-    const context = createMock<ExecutionContext>({
-      switchToHttp: () =>
-        createMock<HttpArgumentsHost>({
-          getRequest: () => ({
-            user: {
-              id: 'uid-2',
-            },
-          }),
-        }),
-    });
+    const app = await initApp(['write']);
+    const guard = await app.get('GUARD');
+    const context = createMockContext({ user: { id: 'uid-2' } });
 
-    expect(await policyGuard.canActivate(context)).toBeTruthy();
+    expect(await guard.canActivate(context)).toBeTruthy();
   });
 
   it('canActivate should return false if user has permission, but condition fails', async () => {
-    const app = (await createTestModule(['read'])).createNestApplication();
-    await app.init();
-    const policyGuard = await app.resolve('GUARD');
-    const context = createMock<ExecutionContext>({
-      switchToHttp: () =>
-        createMock<HttpArgumentsHost>({
-          getRequest: () => ({
-            user: {
-              id: 'uid-3',
-            },
-          }),
-        }),
-    });
+    const app = await initApp(['read']);
+    const guard = await app.get('GUARD');
+    const context = createMockContext({ user: { id: 'uid-3' } });
 
-    expect(await policyGuard.canActivate(context)).toBeFalsy();
+    expect(await guard.canActivate(context)).toBeFalsy();
   });
 
   it('canActivate should return true if user has permission and condition is fulfillled', async () => {
-    const app = (await createTestModule(['write'])).createNestApplication();
-    await app.init();
-    const policyGuard = app.get('GUARD');
-    const context = createMock<ExecutionContext>({
-      switchToHttp: () =>
-        createMock<HttpArgumentsHost>({
-          getRequest: () => ({
-            user: {
-              id: 'uid-4',
-            },
-          }),
-        }),
-    });
+    const app = await initApp(['write']);
+    const guard = app.get('GUARD');
+    const context = createMockContext({ user: { id: 'uid-4' } });
 
-    expect(await policyGuard.canActivate(context)).toBeTruthy();
+    expect(await guard.canActivate(context)).toBeTruthy();
+  });
+
+  it('should support multiple actions', async () => {
+    const app = await initApp([TestActions.Read, TestActions.Write]);
+    const guard = app.get('GUARD');
+    const context = createMockContext({ user: { id: 'uid-2' } });
+
+    expect(await guard.canActivate(context)).toBeTruthy();
+  });
+
+  it('should support conditional action', async () => {
+    const app = await initApp([
+      TestActions.Write.if(
+        ctx => ctx.switchToHttp().getRequest().body.condition
+      ),
+    ]);
+    const guard = app.get('GUARD');
+
+    // user 1 has only read permission
+    expect(
+      await guard.canActivate(
+        createMockContext({ user: { id: 'uid-1' }, body: { condition: true } })
+      )
+    ).toBeFalsy();
+
+    // user 2 has only write permission
+    expect(
+      await guard.canActivate(
+        createMockContext({ user: { id: 'uid-2' }, body: { condition: true } })
+      )
+    ).toBeTruthy();
+    expect(
+      await guard.canActivate(
+        createMockContext({ user: { id: 'uid-2' }, body: { condition: false } })
+      )
+    ).toBeFalsy();
+  });
+
+  it('should support conditional action via type', async () => {
+    const app = await initApp([TestActions.Write.if(AlwaysTrueCondition)]);
+    const guard = app.get('GUARD');
+
+    // user 1 has only read permission
+    expect(
+      await guard.canActivate(createMockContext({ user: { id: 'uid-1' } }))
+    ).toBeFalsy();
+
+    // user 2 has only write permission
+    expect(
+      await guard.canActivate(createMockContext({ user: { id: 'uid-2' } }))
+    ).toBeTruthy();
   });
 });

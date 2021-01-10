@@ -1,19 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Type } from '@nestjs/common';
 import { Condition } from './condition';
 
 @Injectable()
 export class ConditionService {
-  private conditionsById: Map<string, Condition>;
+  private conditionsByIdOrType: Map<string | Type, Condition>;
 
   constructor() {
-    this.conditionsById = new Map();
+    this.conditionsByIdOrType = new Map();
   }
 
   register(condition: Condition) {
-    this.conditionsById.set(condition.id, condition);
+    this.conditionsByIdOrType.set(condition.id, condition);
   }
 
-  find(conditionId: string): Condition | undefined {
-    return this.conditionsById.get(conditionId);
+  findById(conditionId: string): Condition | undefined {
+    return this.conditionsByIdOrType.get(conditionId);
+  }
+
+  findByType(type: Type): Condition | undefined {
+    return this.conditionsByIdOrType.get(type.name);
   }
 }

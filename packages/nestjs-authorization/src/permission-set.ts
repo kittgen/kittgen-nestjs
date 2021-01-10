@@ -9,7 +9,8 @@ const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
 
 export interface PermissionSet {
   add(permissions: Permission[]): void;
-  areAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>;
+  areAllowed(actions: string[], ctx: ExecutionContext): Promise<boolean>;
+  isAllowed(action: string, ctx: ExecutionContext): Promise<boolean>;
   checkPermission(
     permission: Permission,
     action: Action,
@@ -34,6 +35,10 @@ export class SimplePermissionSet implements PermissionSet {
       return matchingPermissions.length > 0;
     });
     return actions.length === granted.length;
+  }
+
+  async isAllowed(action: Action, ctx: ExecutionContext): Promise<boolean> {
+    return this.areAllowed([action], ctx);
   }
 
   async checkPermission(
