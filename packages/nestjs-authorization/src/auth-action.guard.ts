@@ -29,17 +29,17 @@ export const AuthActionGuard = (actions: Action[]) => {
         }
 
         if (typeof action === 'string') {
-          return await permissionSet.areAllowed([action], context);
+          return await permissionSet.isAllowed(action, context);
         }
 
         if (action.condition === undefined) {
-          return await permissionSet.areAllowed([action.name], context);
+          return await permissionSet.isAllowed(action.name, context);
         }
 
         // conditional action
         if (isFunctionalCondition(action.condition)) {
           return action.condition(context)
-            ? await permissionSet.areAllowed([action.name], context)
+            ? await permissionSet.isAllowed(action.name, context)
             : false;
         }
 
@@ -54,7 +54,7 @@ export const AuthActionGuard = (actions: Action[]) => {
           action: action.name,
           permission: undefined,
         })
-          ? await permissionSet.areAllowed([action.name], context)
+          ? await permissionSet.isAllowed(action.name, context)
           : false;
       }, Promise.resolve(false));
       return await result;
