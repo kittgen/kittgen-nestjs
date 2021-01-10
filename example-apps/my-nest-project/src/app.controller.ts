@@ -1,4 +1,4 @@
-import { AuthAction, CreateAction } from '@kittgen/nestjs-authorization';
+import { AuthAction, CreateAction, body } from '@kittgen/nestjs-authorization';
 import { Body, Controller, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
@@ -16,7 +16,7 @@ export class AppController {
 
   @Put('/articles')
   @AuthAction([
-    ArticleAction.Admin.if(ctx => ctx.switchToHttp().getRequest().body.published === true),
+    ArticleAction.Admin.if(body(b => b.published)),
     ArticleAction.Write.if(IsAuthor)
   ])
   @UsePipes(new ValidationPipe())

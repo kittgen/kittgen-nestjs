@@ -10,4 +10,4 @@ export {
 } from './permission.provider';
 export { NoopPermissionProvider } from './noop-permission-provider';
 export { Permission, SimplePermission } from './permission';
-export { CreateAction, Action, ActionBuilder } from './action';
+export { CreateAction, Action, ActionBuilder, body } from './action';

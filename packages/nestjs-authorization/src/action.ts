@@ -16,4 +16,7 @@ export class ActionBuilder {
 
 export const CreateAction = (name: string) => new ActionBuilder(name);
 
+export const body = (predicate: (body: any) => boolean) => (ctx: ExecutionContext) => 
+  predicate(ctx.switchToHttp().getRequest().body)
+
 export type Action = string | ActionBuilder;
