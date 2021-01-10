@@ -9,7 +9,7 @@ const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
 
 export interface PermissionSet {
   add(permissions: Permission[]): void;
-  areAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>;
+  areAllowed(actions: string[], ctx: ExecutionContext): Promise<boolean>;
   checkPermission(
     permission: Permission,
     action: Action,
