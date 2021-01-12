@@ -2,7 +2,7 @@ import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { SimplePermission } from './permission';
-import { AuthActionGuard } from './auth-action.guard';
+import { PermissionGuard } from './permission.guard';
 import { HttpArgumentsHost, INestApplication } from '@nestjs/common/interfaces';
 import { AbstractCondition } from './condition';
 import { ConditionService } from './condition.service';
@@ -101,7 +101,7 @@ function createTestModule(actions: Action[]) {
       },
       {
         provide: 'GUARD',
-        useClass: AuthActionGuard(actions),
+        useClass: PermissionGuard(actions),
       },
     ],
   }).compile();

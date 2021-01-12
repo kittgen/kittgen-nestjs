@@ -10,9 +10,9 @@ import { Action } from './action';
 import { PermissionProvider } from './permission.provider';
 import { ConditionService } from './condition.service';
 
-export const AuthActionGuard = (actions: Action[]) => {
+export const PermissionGuard = (actions: Action[]) => {
   @Injectable()
-  class AuthActionGuardImpl implements CanActivate {
+  class PermissionGuardImpl implements CanActivate {
     constructor(
       @Inject('PERMISSION_PROVIDER')
       private permissionProvider: PermissionProvider,
@@ -36,30 +36,32 @@ export const AuthActionGuard = (actions: Action[]) => {
           return await permissionSet.isAllowed(action.name, context);
         }
 
-        // conditional action
+        // conditional action by function
         if (isFunctionalCondition(action.condition)) {
           return action.condition(context)
             ? await permissionSet.isAllowed(action.name, context)
             : false;
         }
 
+        // conditional action by type
         const condition = await this.conditionService.findByType(
           action.condition
         );
-        if (!condition) {
-          return false;
+        if (
+          condition &&
+          (await condition.check(context, {
+            action: action.name,
+            permission: undefined,
+          }))
+        ) {
+          return await permissionSet.isAllowed(action.name, context);
         }
 
-        return condition.check(context, {
-          action: action.name,
-          permission: undefined,
-        })
-          ? await permissionSet.isAllowed(action.name, context)
-          : false;
+        return false;
       }, Promise.resolve(false));
       return await result;
     }
   }
 
-  return mixin(AuthActionGuardImpl) as any;
+  return mixin(PermissionGuardImpl) as any;
 };

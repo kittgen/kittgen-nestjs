@@ -1,5 +1,5 @@
-export { AuthAction } from './auth-action.decorator';
-export { AuthActionGuard } from './auth-action.guard';
+export { CheckPermission } from './check-permission.decorator';
+export { PermissionGuard } from './permission.guard';
 export { AuthorizationModule } from './authorization.module';
 export { Condition, AbstractCondition, ConditionContext } from './condition';
 export { ConditionService as ConditionsService } from './condition.service';

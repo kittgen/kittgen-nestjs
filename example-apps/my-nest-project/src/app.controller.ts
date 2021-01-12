@@ -1,4 +1,4 @@
-import { AuthAction, CreateAction, body } from '@kittgen/nestjs-authorization';
+import { CheckPermission, CreateAction, body } from '@kittgen/nestjs-authorization';
 import { Body, Controller, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
@@ -15,7 +15,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Put('/articles')
-  @AuthAction([
+  @CheckPermission([
     ArticleAction.Admin.if(body(b => b.published)),
     ArticleAction.Write.if(IsAuthor)
   ])
