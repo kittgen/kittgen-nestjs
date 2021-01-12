@@ -1,4 +1,9 @@
-import { CheckPermission, CreateAction, body } from '@kittgen/nestjs-authorization';
+import {
+  body,
+  CheckPermission,
+  CreateAction,
+  PermissionInterceptor,
+} from '@kittgen/nestjs-authorization';
 import {
   Body,
   Controller,
@@ -8,7 +13,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ExposeIfHasPermissionForInterceptor } from './expose-if-has-permission-for.interceptor';
 import { GetArticleDto } from './get-article.dto';
 import { IsAuthor } from './is-author.condition';
 import { CreateHelloDto as UpdateArticleDto } from './update-article.dto';
@@ -22,9 +26,9 @@ export class ArticleAction {
 @Controller()
 export class AppController {
   @Get('/articles')
-  @AuthAction([ArticleAction.Read])
+  @CheckPermission([ArticleAction.Read])
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(ExposeIfHasPermissionForInterceptor)
+  @UseInterceptors(PermissionInterceptor)
   getArticles(): GetArticleDto {
     return new GetArticleDto({
       authorId: 42,
@@ -39,7 +43,7 @@ export class AppController {
     ArticleAction.Write.if(IsAuthor),
   ])
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(ExposeIfHasPermissionForInterceptor)
+  @UseInterceptors(PermissionInterceptor)
   updateArticle(@Body() updateArtcileDto: UpdateArticleDto): GetArticleDto {
     return new GetArticleDto(updateArtcileDto);
   }

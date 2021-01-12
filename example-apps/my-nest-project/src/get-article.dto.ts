@@ -1,12 +1,12 @@
 import { IsBoolean, IsNumber, IsString } from 'class-validator';
-import { ExposeIfHasPermissionFor } from './expose-if-has-permission-for.decorator';
+import { ExposeWithPermission } from '@kittgen/nestjs-authorization';
 
 export class GetArticleDto {
-  @ExposeIfHasPermissionFor('read-article')
+  @ExposeWithPermission('read-article')
   @IsString()
   name: string;
 
-  @ExposeIfHasPermissionFor('write-article')
+  @ExposeWithPermission('write-article')
   @IsBoolean()
   published: boolean;
 

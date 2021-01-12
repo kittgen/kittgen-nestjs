@@ -11,16 +11,17 @@ import { ClassTransformOptions } from 'class-transformer';
 import { Observable, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { REQUEST } from '@nestjs/core';
-import { PermissionProvider } from '@kittgen/nestjs-authorization';
+import { PermissionProvider } from './permission.provider';
+import { Action } from './action';
 
 @Injectable({ scope: Scope.REQUEST })
-export class ExposeIfHasPermissionForInterceptor extends ClassSerializerInterceptor {
+export class PermissionInterceptor extends ClassSerializerInterceptor {
   constructor(
     @Inject('Reflector') protected readonly reflector: any,
     @Inject(REQUEST) private request: any,
     @Inject('PERMISSION_PROVIDER')
     private permissionProvider: PermissionProvider,
-    @Optional() protected readonly defaultOptions: ClassTransformOptions = {},
+    @Optional() protected readonly defaultOptions: ClassTransformOptions = {}
   ) {
     super(reflector, defaultOptions);
   }
@@ -29,30 +30,30 @@ export class ExposeIfHasPermissionForInterceptor extends ClassSerializerIntercep
     const contextOptions = this.getContextOptions(context);
     const options = Object.assign(
       Object.assign({}, this.defaultOptions),
-      contextOptions,
+      contextOptions
     );
     return next.handle().pipe(
-      mergeMap((data) => {
+      mergeMap(data => {
         return from(
-          this.permissionProvider.getPermissionSet(this.request),
+          this.permissionProvider.getPermissionSet(this.request)
         ).pipe(
-          mergeMap((permissionSet) => {
-            const fields = Reflect.getMetadata(
-              'exposeIfHasPermissionFor',
-              data,
-            );
+          mergeMap(permissionSet => {
+            const fields = Reflect.getMetadata('actions', data);
             return from(
-              fields.reduce(async (result, [field, permission]) => {
-                const res = await result;
-                if (!(await permissionSet.areAllowed([permission], context))) {
-                  delete res[field];
-                }
-                return res;
-              }, Promise.resolve(data)),
-            ).pipe(map((d) => this.serialize(d, options)));
-          }),
+              fields.reduce(
+                async (result: any, [field, action]: [string, Action]) => {
+                  const res = await result;
+                  if (!(await permissionSet.isAllowed(action, context))) {
+                    delete res[field];
+                  }
+                  return res;
+                },
+                Promise.resolve(data)
+              )
+            ).pipe(map((data: any) => this.serialize(data, options)));
+          })
         );
-      }),
+      })
     );
   }
 }
