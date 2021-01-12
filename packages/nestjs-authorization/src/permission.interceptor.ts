@@ -13,6 +13,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { REQUEST } from '@nestjs/core';
 import { PermissionProvider } from './permission.provider';
 import { Action } from './action';
+import { PermissionService } from './permission.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PermissionInterceptor extends ClassSerializerInterceptor {
@@ -21,6 +22,7 @@ export class PermissionInterceptor extends ClassSerializerInterceptor {
     @Inject(REQUEST) private request: any,
     @Inject('PERMISSION_PROVIDER')
     private permissionProvider: PermissionProvider,
+    private permissionService: PermissionService,
     @Optional() protected readonly defaultOptions: ClassTransformOptions = {}
   ) {
     super(reflector, defaultOptions);
@@ -43,7 +45,13 @@ export class PermissionInterceptor extends ClassSerializerInterceptor {
               fields.reduce(
                 async (result: any, [field, action]: [string, Action]) => {
                   const res = await result;
-                  if (!(await permissionSet.isAllowed(action, context))) {
+                  if (
+                    !(await this.permissionService.areAllowed(
+                      [action],
+                      permissionSet,
+                      context
+                    ))
+                  ) {
                     delete res[field];
                   }
                   return res;

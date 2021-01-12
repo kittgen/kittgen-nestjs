@@ -13,6 +13,9 @@ import { PermissionService } from './permission.service';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
+  constructor(conditionService: ConditionService) {
+    super(conditionService);
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(true);
@@ -21,6 +24,9 @@ class AlwaysTrueCondition extends AbstractCondition {
 
 @Injectable()
 class AlwaysFalseCondition extends AbstractCondition {
+  constructor(conditionService: ConditionService) {
+    super(conditionService);
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(false);

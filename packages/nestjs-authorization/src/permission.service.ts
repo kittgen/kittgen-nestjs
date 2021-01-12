@@ -8,6 +8,14 @@ import { PermissionSet } from './permission-set';
 export class PermissionService {
   constructor(private conditionService: ConditionService) {}
 
+  async isAllowed(
+    action: Action,
+    permissionSet: PermissionSet,
+    context: ExecutionContext
+  ) {
+    return this.areAllowed([action], permissionSet, context);
+  }
+
   async areAllowed(
     actions: Action[],
     permissionSet: PermissionSet,

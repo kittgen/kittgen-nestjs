@@ -30,8 +30,8 @@ export const isFunctionalCondition = (
 
 @Injectable()
 export abstract class AbstractCondition implements Condition {
-  constructor(conditionsService: ConditionService) {
-    conditionsService.register(this);
+  constructor(conditionService: ConditionService) {
+    conditionService.register(this);
   }
 
   get id() {
