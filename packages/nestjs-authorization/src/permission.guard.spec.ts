@@ -9,9 +9,13 @@ import { ConditionService } from './condition.service';
 import { AbstractPermissionProvider } from './permission.provider';
 import { SimplePermissionSet } from './permission-set';
 import { Action, CreateAction } from './action';
+import { PermissionService } from './permission.service';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
+  constructor(conditionService: ConditionService) {
+    super(conditionService);
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(true);
@@ -20,6 +24,9 @@ class AlwaysTrueCondition extends AbstractCondition {
 
 @Injectable()
 class AlwaysFalseCondition extends AbstractCondition {
+  constructor(conditionService: ConditionService) {
+    super(conditionService);
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   check(_ctx: ExecutionContext): Promise<boolean> {
     return Promise.resolve(false);
@@ -90,6 +97,7 @@ function createTestModule(actions: Action[]) {
     imports: [],
     providers: [
       ConditionService,
+      PermissionService,
       AlwaysFalseCondition,
       AlwaysTrueCondition,
       {
@@ -107,7 +115,7 @@ function createTestModule(actions: Action[]) {
   }).compile();
 }
 
-describe('AuthActionGuard', () => {
+describe('PermissionGuard', () => {
   it('canActivate should return false if user has NOT permission', async () => {
     const app = await initApp(['write']);
     const guard = await app.get('GUARD');

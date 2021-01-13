@@ -13,3 +13,4 @@ export { Permission, SimplePermission } from './permission';
 export { CreateAction, Action, ActionBuilder, body } from './action';
 export { PermissionInterceptor } from './permission.interceptor';
 export { ExposeWithPermission } from './expose-with-permission.decorator';
+export { PermissionService } from './permission.service';
