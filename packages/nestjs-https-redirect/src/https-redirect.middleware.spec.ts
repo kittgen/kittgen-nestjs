@@ -12,7 +12,7 @@ const createResponse = () => ({
 });
 
 describe('HttpsRedirectMiddleware', () => {
-  let middleware: HttpsRedirectMiddleware;
+  let middleware: any;
   const next = jest.fn();
 
   afterEach(() => {
@@ -21,7 +21,8 @@ describe('HttpsRedirectMiddleware', () => {
 
   describe('when enabled', () => {
     beforeEach(() => {
-      middleware = new HttpsRedirectMiddleware();
+      const ctor = HttpsRedirectMiddleware();
+      middleware = new ctor();
     });
 
     it('should redirect unsecured request', () => {
@@ -46,7 +47,8 @@ describe('HttpsRedirectMiddleware', () => {
 
   describe('when disabled', () => {
     beforeEach(() => {
-      middleware = new HttpsRedirectMiddleware({ enabled: false });
+      const ctor = HttpsRedirectMiddleware({ enabled: false });
+      middleware = new ctor();
     });
 
     it('should NOT redirect unsecured request', () => {

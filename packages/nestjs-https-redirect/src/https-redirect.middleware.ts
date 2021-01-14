@@ -1,9 +1,9 @@
-import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
+import { HttpStatus, Injectable, NestMiddleware, Type } from '@nestjs/common';
 import { HttpsRedirectMiddlewareOptions } from './https-redirect-middleware-options.interface';
 
 export function HttpsRedirectMiddleware(
-  options: HttpsRedirectMiddlewareOptions
-): any {
+  options: HttpsRedirectMiddlewareOptions = { enabled: true }
+): Type<NestMiddleware> {
   @Injectable()
   class HttpsRedirectMiddlewareCtor implements NestMiddleware {
     use(req: any, res: any, next: () => void) {

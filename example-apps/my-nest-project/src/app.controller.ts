@@ -1,7 +1,7 @@
 import {
   body,
+  createAction,
   CheckPermission,
-  CreateAction,
   PermissionInterceptor,
 } from '@kittgen/nestjs-authorization';
 import {
@@ -18,15 +18,15 @@ import { IsAuthor } from './is-author.condition';
 import { CreateHelloDto as UpdateArticleDto } from './update-article.dto';
 
 export class ArticleAction {
-  static Read = CreateAction('read-article');
-  static Write = CreateAction('write-article');
-  static Admin = CreateAction('all');
+  static Read = createAction('read-article');
+  static Write = createAction('write-article');
+  static Admin = createAction('all');
 }
 
 @Controller()
 export class AppController {
   @Get('/articles')
-  @CheckPermission([ArticleAction.Read])
+  @CheckPermission(ArticleAction.Read)
   @UsePipes(new ValidationPipe())
   @UseInterceptors(PermissionInterceptor)
   getArticles(): GetArticleDto {
@@ -39,8 +39,8 @@ export class AppController {
 
   @Put('/articles')
   @CheckPermission(
-    ArticleAction.Admin.if(body(b => b.published)),
-    ArticleAction.Write.if(IsAuthor)
+    ArticleAction.Admin.if(body((b) => b.published)),
+    ArticleAction.Write.if(IsAuthor),
   )
   @UsePipes(new ValidationPipe())
   @UseInterceptors(PermissionInterceptor)
