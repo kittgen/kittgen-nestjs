@@ -14,23 +14,26 @@ npm i @kittgen/nestjs-https-redirect
 
 ### Register your middleware
 
-First, if you're behind a reverse proxy (e.g. Heroku or nginx) make sure enable `trust proxy` for you app:
+#### Add Middleware to ApplicationModule
 
-```
-app.enable('trust proxy`);
-```
-
-Then in your application module, set up the middleware:
+Further explanations about middlewares can be found in the [Nestjs documentation](https://docs.nestjs.com/middleware#applying-middleware).
 
 ```ts
 export class ApplicationModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(HttpsRedirectMiddleware).forRoutes({
+    consumer.apply(HttpsRedirectMiddleware({ enabled: true })).forRoutes({
       path: '*',
       method: RequestMethod.ALL,
     });
   }
 }
+```
+#### Reverse Proxys
+
+If you're behind a reverse proxy (e.g. Heroku or nginx) make sure to enable `trust proxy` for your express app:
+
+```js
+app.enable('trust proxy');
 ```
 
 ## Local Development
@@ -40,7 +43,6 @@ export class ApplicationModule {
 #### Important Commands
 
 ```bash
-
 # start in watcher mode
 npm start
 
@@ -49,7 +51,6 @@ npm run build
 
 # runs the tests
 npm test
-
 ```
 
 #### Commits
