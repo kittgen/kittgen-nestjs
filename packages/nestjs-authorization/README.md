@@ -30,7 +30,7 @@ import { ReadArticles } from './articles.auth-actions'
 
 @Get(':id')
 @UseGuards(
-  PermissionGuard([ReadArticles])
+  PermissionGuard(ReadArticles)
 )
 findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
@@ -43,7 +43,7 @@ import { CheckPermission } from '@kittgen/nestjs-authorization'
 import { ReadArticles } from './articles.auth-actions'
 
 @Get(':id')
-@CheckPermission([ReadArticles])
+@CheckPermission(ReadArticles)
 
 findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
@@ -52,7 +52,47 @@ findOne(@Param('id') id: string) {
 
 ### Implement PermissionProvider
 
-...
+#### Define a PermissionProvider
+
+```ts
+import { AbstractPermissionProvider, PermissionSet, SimplePermissionSet, SimplePermission } from '@kittgen/nestjs-authorization'
+
+export class MyPermissionProvider extends AbstractPermissionProvider {
+    getPermissionSet(req: any): Promise<PermissionSet> {  
+        // implement your custom resolving logic here
+        // example:
+        if (req.user.id === 'uid-1') {
+            return Promise.resolve(
+              new SimplePermissionSet([new SimplePermission('read-article')]),
+            );
+          }
+    }
+}
+```
+#### Register your PermissionProvider
+```ts
+import { MyPermissionProvider } from './my-permission-provider';
+import { AuthorizationModule, PERMISSION_PROVIDER } from '@kittgen/nestjs-authorization'
+
+@Module({
+  imports: [
+    //...
+    AuthorizationModule
+  ],
+  providers: [
+   //...
+   {
+      provide: PERMISSION_PROVIDER,
+      useClass: MyPermissionProvider
+    },
+  ],
+  exports: [
+    AuthorizationModule,
+    PERMISSION_PROVIDER
+  ]
+})
+export class AppModule { }
+```
 
 ## Local Development
 
