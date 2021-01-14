@@ -1,0 +1,68 @@
+name: release-nestjs-https-redirect
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: packages/nestjs-https-redirect
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: load cache
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: npm test
+        run: npm test
+  release:
+    name: Release
+    runs-on: ubuntu-20.04
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org
+      - name: load cache
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        if: success()
+        env:
+          CI: true
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run build
+      - name: Create .npmrc
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release
+        if: success()
+        env:
+          CI: true
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: "npx semantic-release"
