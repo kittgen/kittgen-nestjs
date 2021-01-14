@@ -2,7 +2,7 @@
 
 HTTPS redirect middleware for Nestjs.
 
-[Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs) for further information.
+[Check the main page for Kittgen](../../README.md) for further information.
 
 ## Usage
 
@@ -14,7 +14,7 @@ npm i @kittgen/nestjs-https-redirect
 
 ### Register your middleware
 
-First, make sure enable `trust proxy` for you app:
+First, if you're behind a reverse proxy (e.g. Heroku or nginx) make sure enable `trust proxy` for you app:
 
 ```
 app.enable('trust proxy`);
@@ -24,14 +24,12 @@ Then in your application module, set up the middleware:
 
 ```ts
 export class ApplicationModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-          .apply(HttpsRedirectMiddleware)
-          .forRoutes({
-            path: '*',
-            method: RequestMethod.ALL
-          });
-    }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(HttpsRedirectMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
 }
 ```
 
@@ -40,6 +38,7 @@ export class ApplicationModule {
 ### Local Library Development
 
 #### Important Commands
+
 ```bash
 
 # start in watcher mode
