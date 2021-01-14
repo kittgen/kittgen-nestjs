@@ -6,8 +6,8 @@ Kittgen is a set of libraries and code generators. In this repository you can fi
 
 ## Available Modules
 
-- [@kittgen/nestjs-authorization`](packages/nestjs-authorization/README.md): A permission based authorization library
-- [@kittgen/nestjs-https-redirect`](packages/nestjs-https-redirect/README.md): HTTPS redirect middleware
+- [@kittgen/nestjs-authorization](packages/nestjs-authorization/README.md): A permission based authorization library
+- [@kittgen/nestjs-https-redirect](packages/nestjs-https-redirect/README.md): HTTPS redirect middleware
 
 ## Library Development
 
