@@ -2,7 +2,7 @@
 
 Permission based authorization for Nestjs.
 
-[Check the main page for Kittgen](../../README.md) for further information.
+[Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs/blob/main/README.md) for further information.
 
 ## Usage
 
@@ -22,9 +22,11 @@ findOne(@Param('id') id: string) {
 
 ...
 
-## Local Library Development
+## Local Development
 
-### Importand Commands
+### Local Libary Development
+
+#### Importand Commands
 ```bash
 
 # start in watcher mode
@@ -38,9 +40,9 @@ npm test
 
 ```
 
-### Commits
+#### Commits
 
-We use [commitlint](https://commitlint.js.org/) for nice commit messages and automated versioning/changelog.
+We use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for nice commit messages and automated versioning/changelog.
 
 Example commit messages:
 - `feat: TOOL-67 init template`
