@@ -8,7 +8,7 @@ const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {
 };
 
 export interface PermissionSet {
-  add(permissions: Permission[]): void;
+  add(...permissions: Permission[]): void;
   areAllowed(actions: Action[], ctx: ExecutionContext): Promise<boolean>;
   isAllowed(action: Action, ctx: ExecutionContext): Promise<boolean>;
   checkPermission(
@@ -19,9 +19,14 @@ export interface PermissionSet {
 }
 
 export class SimplePermissionSet implements PermissionSet {
-  constructor(readonly permissions: Permission[] = []) {}
 
-  add(permissions: Permission[]) {
+  readonly permissions: Permission[]
+
+  constructor(...permissions: Permission[]) {
+    this.permissions = permissions
+  }
+
+  add(...permissions: Permission[]) {
     this.permissions.push(...permissions);
     return this;
   }

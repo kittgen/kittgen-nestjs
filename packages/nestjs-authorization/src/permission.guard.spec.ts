@@ -48,29 +48,29 @@ class TestPermissionProivider extends AbstractPermissionProvider {
     switch (req.user.id) {
       case 'uid-1':
         return Promise.resolve(
-          new SimplePermissionSet([new SimplePermission('read')])
+          new SimplePermissionSet(new SimplePermission('read'))
         );
       case 'uid-2':
         return Promise.resolve(
-          new SimplePermissionSet([new SimplePermission('write')])
+          new SimplePermissionSet(new SimplePermission('write'))
         );
       case 'uid-3':
         return Promise.resolve(
-          new SimplePermissionSet([
+          new SimplePermissionSet(
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysFalseCondition.name)
             ),
-          ])
+          )
         );
       case 'uid-4':
         return Promise.resolve(
-          new SimplePermissionSet([
+          new SimplePermissionSet(
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysTrueCondition.name)
             ),
-          ])
+          )
         );
       default:
         return Promise.resolve(new SimplePermissionSet());

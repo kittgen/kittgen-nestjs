@@ -5,10 +5,10 @@ import { SimplePermissionSet } from './permission-set';
 
 describe('PermissionSet', () => {
   it('should check for actions', async () => {
-    const permissions = new SimplePermissionSet([
+    const permissions = new SimplePermissionSet(
       new SimplePermission('foo'),
       new SimplePermission('bar'),
-    ]);
+    );
     const context = createMock<ExecutionContext>();
 
     expect(await permissions.isAllowed('foo', context)).toBeTruthy();
@@ -21,10 +21,10 @@ describe('PermissionSet', () => {
   });
 
   it('should add a permission', async () => {
-    const permissions = new SimplePermissionSet([]);
+    const permissions = new SimplePermissionSet();
     const context = createMock<ExecutionContext>();
 
-    permissions.add([new SimplePermission('foo')]);
+    permissions.add(new SimplePermission('foo'));
 
     expect(await permissions.areAllowed(['foo'], context)).toBeTruthy();
   });
