@@ -2,7 +2,7 @@
 
 Permission based authorization for Nestjs.
 
-[Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs/blob/main/README.md) for further information.
+[Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs) for further information.
 
 ## Usage
 
