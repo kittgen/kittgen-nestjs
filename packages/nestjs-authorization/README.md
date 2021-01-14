@@ -6,13 +6,19 @@ Permission based authorization for Nestjs.
 
 ## Usage
 
-TODO
+### Installation
+
+```bash
+npm i @kittgen/nestjs-authorization
+```
 
 ### Annotate your controllers
 
 ```ts
 @Get(':id')
-@AuthAction([ArticleAuthAction.Read])
+@UseGuards(
+  PermissionGuard([ArticleAuthAction.Read])
+)
 findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
 }
