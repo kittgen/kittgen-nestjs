@@ -63,7 +63,7 @@ export class MyPermissionProvider extends AbstractPermissionProvider {
         // example:
         if (req.user.id === 'uid-1') {
             return Promise.resolve(
-              new SimplePermissionSet([new SimplePermission('read-article')]),
+              new SimplePermissionSet(new SimplePermission('read-article')),
             );
           }
     }
