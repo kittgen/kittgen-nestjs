@@ -96,7 +96,7 @@ export class AppModule { }
 
 ## Local Development
 
-### Local Libary Development
+### Local Library Development
 
 #### Importand Commands
 ```bash
