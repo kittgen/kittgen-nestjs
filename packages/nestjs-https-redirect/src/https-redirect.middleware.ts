@@ -15,9 +15,7 @@ export class HttpsRedirectMiddleware implements NestMiddleware {
       return;
     }
 
-    const isHttpProto = req.header('x-forwarded-proto') === 'http';
-
-    if (!req.secure && isHttpProto) {
+    if (!req.secure) {
       const redirectUrl = `https://${req.hostname}${req.originalUrl}`;
       res.redirect(HttpStatus.PERMANENT_REDIRECT, redirectUrl);
     }
