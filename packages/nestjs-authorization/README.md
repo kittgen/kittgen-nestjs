@@ -59,13 +59,11 @@ import { AbstractPermissionProvider, PermissionSet, SimplePermissionSet, SimpleP
 
 export class MyPermissionProvider extends AbstractPermissionProvider {
     getPermissionSet(req: any): Promise<PermissionSet> {  
-        // implement your custom resolving logic here
-        // example:
-        if (req.user.id === 'uid-1') {
-            return Promise.resolve(
-              new SimplePermissionSet(new SimplePermission('read-article')),
-            );
-          }
+       // implement your custom resolving logic here
+       // example:
+       return Promise.resolve(
+         new SimplePermissionSet(new SimplePermission('read-article')),
+       );
     }
 }
 ```
@@ -115,11 +113,6 @@ npm test
 #### Commits
 
 We use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for nice commit messages and automated versioning/changelog.
-
-Example commit messages:
-- `feat: TOOL-67 init template`
-- `chore: TOOL-67 init template`
-
 
 This packages uses [TSDX](https://github.com/jaredpalmer/tsdx).
 
