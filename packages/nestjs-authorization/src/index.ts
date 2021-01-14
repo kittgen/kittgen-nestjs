@@ -7,6 +7,7 @@ export { SimplePermissionSet, PermissionSet } from './permission-set';
 export {
   PermissionProvider,
   AbstractPermissionProvider,
+  PERMISSION_PROVIDER
 } from './permission.provider';
 export { NoopPermissionProvider } from './noop-permission-provider';
 export { Permission, SimplePermission } from './permission';

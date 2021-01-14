@@ -48,29 +48,29 @@ class TestPermissionProivider extends AbstractPermissionProvider {
     switch (req.user.id) {
       case 'uid-1':
         return Promise.resolve(
-          new SimplePermissionSet([new SimplePermission('read')])
+          new SimplePermissionSet(new SimplePermission('read'))
         );
       case 'uid-2':
         return Promise.resolve(
-          new SimplePermissionSet([new SimplePermission('write')])
+          new SimplePermissionSet(new SimplePermission('write'))
         );
       case 'uid-3':
         return Promise.resolve(
-          new SimplePermissionSet([
+          new SimplePermissionSet(
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysFalseCondition.name)
             ),
-          ])
+          )
         );
       case 'uid-4':
         return Promise.resolve(
-          new SimplePermissionSet([
+          new SimplePermissionSet(
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysTrueCondition.name)
             ),
-          ])
+          )
         );
       default:
         return Promise.resolve(new SimplePermissionSet());
@@ -78,7 +78,7 @@ class TestPermissionProivider extends AbstractPermissionProvider {
   }
 }
 
-const initApp = async (actions: Action[]): Promise<INestApplication> => {
+const initApp = async (...actions: Action[]): Promise<INestApplication> => {
   const app = (await createTestModule(actions)).createNestApplication();
   await app.init();
   return app;
@@ -109,7 +109,7 @@ function createTestModule(actions: Action[]) {
       },
       {
         provide: 'GUARD',
-        useClass: PermissionGuard(actions),
+        useClass: PermissionGuard(...actions),
       },
     ],
   }).compile();
@@ -117,7 +117,7 @@ function createTestModule(actions: Action[]) {
 
 describe('PermissionGuard', () => {
   it('canActivate should return false if user has NOT permission', async () => {
-    const app = await initApp(['write']);
+    const app = await initApp('write');
     const guard = await app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-1' } });
 
@@ -125,7 +125,7 @@ describe('PermissionGuard', () => {
   });
 
   it('canActivate should return true if user has permission', async () => {
-    const app = await initApp(['write']);
+    const app = await initApp('write');
     const guard = await app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-2' } });
 
@@ -133,7 +133,7 @@ describe('PermissionGuard', () => {
   });
 
   it('canActivate should return false if user has permission, but condition fails', async () => {
-    const app = await initApp(['read']);
+    const app = await initApp('read');
     const guard = await app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-3' } });
 
@@ -141,7 +141,7 @@ describe('PermissionGuard', () => {
   });
 
   it('canActivate should return true if user has permission and condition is fulfillled', async () => {
-    const app = await initApp(['write']);
+    const app = await initApp('write');
     const guard = app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-4' } });
 
@@ -149,7 +149,7 @@ describe('PermissionGuard', () => {
   });
 
   it('should support multiple actions', async () => {
-    const app = await initApp([TestActions.Read, TestActions.Write]);
+    const app = await initApp(TestActions.Read, TestActions.Write);
     const guard = app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-2' } });
 
@@ -157,11 +157,11 @@ describe('PermissionGuard', () => {
   });
 
   it('should support conditional action', async () => {
-    const app = await initApp([
+    const app = await initApp(
       TestActions.Write.if(
         ctx => ctx.switchToHttp().getRequest().body.condition
       ),
-    ]);
+    );
     const guard = app.get('GUARD');
 
     // user 1 has only read permission
@@ -185,7 +185,7 @@ describe('PermissionGuard', () => {
   });
 
   it('should support conditional action via type', async () => {
-    const app = await initApp([TestActions.Write.if(AlwaysTrueCondition)]);
+    const app = await initApp(TestActions.Write.if(AlwaysTrueCondition));
     const guard = app.get('GUARD');
 
     // user 1 has only read permission

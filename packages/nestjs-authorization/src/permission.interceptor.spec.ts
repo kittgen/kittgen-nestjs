@@ -41,7 +41,7 @@ const createPermissionProvider = (
   getPermissionSet: async (_ctx: any): Promise<PermissionSet> => {
     return Promise.resolve(
       new SimplePermissionSet(
-        permissions.map(perm => new SimplePermission(perm))
+        ...permissions.map(perm => new SimplePermission(perm))
       )
     );
   },

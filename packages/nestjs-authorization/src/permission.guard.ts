@@ -6,17 +6,18 @@ import {
   mixin,
 } from '@nestjs/common';
 import { Action } from './action';
-import { PermissionProvider } from './permission.provider';
+import { PermissionProvider, PERMISSION_PROVIDER } from './permission.provider';
 import { PermissionService } from './permission.service';
 
-export const PermissionGuard = (actions: Action[]) => {
+
+export const PermissionGuard = (...actions: Action[]) => {
   @Injectable()
   class PermissionGuardImpl implements CanActivate {
     constructor(
-      @Inject('PERMISSION_PROVIDER')
+      @Inject(PERMISSION_PROVIDER)
       private permissionProvider: PermissionProvider,
       private permissionService: PermissionService
-    ) {}
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const req = context.switchToHttp().getRequest();
