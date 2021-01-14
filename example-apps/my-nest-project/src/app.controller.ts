@@ -38,10 +38,10 @@ export class AppController {
   }
 
   @Put('/articles')
-  @CheckPermission([
-    ArticleAction.Admin.if(body((b) => b.published)),
-    ArticleAction.Write.if(IsAuthor),
-  ])
+  @CheckPermission(
+    ArticleAction.Admin.if(body(b => b.published)),
+    ArticleAction.Write.if(IsAuthor)
+  )
   @UsePipes(new ValidationPipe())
   @UseInterceptors(PermissionInterceptor)
   updateArticle(@Body() updateArtcileDto: UpdateArticleDto): GetArticleDto {

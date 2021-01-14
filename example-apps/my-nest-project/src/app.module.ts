@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthorizationModule } from '@kittgen/nestjs-authorization';
+import { AuthorizationModule, PERMISSION_PROVIDER} from '@kittgen/nestjs-authorization';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
@@ -11,7 +11,7 @@ import { InMemoryPermissionProvider } from './in-memory-permission.provider';
   imports: [AuthorizationModule],
   controllers: [AppController],
   providers: [AppService, IsAuthor, {
-    provide: 'PERMISSION_PROVIDER',
+    provide: PERMISSION_PROVIDER,
     useClass: InMemoryPermissionProvider
   }, {
     provide: APP_GUARD,
