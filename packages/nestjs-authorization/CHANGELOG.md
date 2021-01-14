@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.2.0...nestjs-authorization-v1.3.0) (2021-01-14)
+
+
+### Features
+
+* add extractors for params and query ([#14](https://github.com/kittgen/kittgen-nestjs/issues/14)) ([2ae1f78](https://github.com/kittgen/kittgen-nestjs/commit/2ae1f786aaac0ecef0dc44c07dc494b82cde0c7c))
+
 # [1.2.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.1.1...nestjs-authorization-v1.2.0) (2021-01-14)
 
 
