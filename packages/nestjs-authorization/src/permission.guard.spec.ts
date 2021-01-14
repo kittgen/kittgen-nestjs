@@ -8,7 +8,7 @@ import { AbstractCondition } from './condition';
 import { ConditionService } from './condition.service';
 import { AbstractPermissionProvider } from './permission.provider';
 import { SimplePermissionSet } from './permission-set';
-import { Action, CreateAction } from './action';
+import { Action, createAction } from './action';
 import { PermissionService } from './permission.service';
 
 @Injectable()
@@ -34,9 +34,9 @@ class AlwaysFalseCondition extends AbstractCondition {
 }
 
 class TestActions {
-  static Read = CreateAction('read');
-  static Write = CreateAction('write');
-  static Admin = CreateAction('all');
+  static Read = createAction('read');
+  static Write = createAction('write');
+  static Admin = createAction('all');
 }
 
 class TestPermissionProivider extends AbstractPermissionProvider {
@@ -60,7 +60,7 @@ class TestPermissionProivider extends AbstractPermissionProvider {
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysFalseCondition.name)
-            ),
+            )
           )
         );
       case 'uid-4':
@@ -69,7 +69,7 @@ class TestPermissionProivider extends AbstractPermissionProvider {
             new SimplePermission(
               'write',
               this.conditionService.findById(AlwaysTrueCondition.name)
-            ),
+            )
           )
         );
       default:
@@ -160,7 +160,7 @@ describe('PermissionGuard', () => {
     const app = await initApp(
       TestActions.Write.if(
         ctx => ctx.switchToHttp().getRequest().body.condition
-      ),
+      )
     );
     const guard = app.get('GUARD');
 
