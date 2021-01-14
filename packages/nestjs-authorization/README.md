@@ -15,7 +15,7 @@ npm i @kittgen/nestjs-authorization
 In classic RBAC literature `Actions` are called `Operations`. They are the same thing, we chose a different name.
 
 ```ts
-import { CreateAction } from '@kittgen/nestjs-authorization';
+import { createAction } from '@kittgen/nestjs-authorization';
 
 export const ReadArticles = createAction('read-articles')
 ```
@@ -69,8 +69,8 @@ export class MyPermissionProvider extends AbstractPermissionProvider {
 ```
 #### Register your PermissionProvider
 ```ts
+import { AuthorizationModule, PERMISSION_PROVIDER } from '@kittgen/nestjs-authorization';
 import { MyPermissionProvider } from './my-permission-provider';
-import { AuthorizationModule, PERMISSION_PROVIDER } from '@kittgen/nestjs-authorization'
 
 @Module({
   imports: [
