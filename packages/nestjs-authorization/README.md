@@ -17,7 +17,7 @@ In classic RBAC literature `Actions` are called `Operations`. They are the same 
 ```ts
 import { CreateAction } from '@kittgen/nestjs-authorization';
 
-export const ReadArticles = CreateAction('read-articles')
+export const ReadArticles = createAction('read-articles')
 ```
 
 ### Annotate your controllers
@@ -98,7 +98,7 @@ export class AppModule { }
 
 ### Local Library Development
 
-#### Importand Commands
+#### Important Commands
 ```bash
 
 # start in watcher mode
