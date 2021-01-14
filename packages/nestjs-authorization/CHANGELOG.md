@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.1.1...nestjs-authorization-v1.2.0) (2021-01-14)
+
+
+### Features
+
+* add conditional actions ([#8](https://github.com/kittgen/kittgen-nestjs/issues/8)) ([d787f20](https://github.com/kittgen/kittgen-nestjs/commit/d787f208e2dcd351215ae6bb9c3bb14118e0cf46))
+* add ExposeWithPermission decorator ([#10](https://github.com/kittgen/kittgen-nestjs/issues/10)) ([5ed50c2](https://github.com/kittgen/kittgen-nestjs/commit/5ed50c24fbd7a1e27118e4962693a97f79b49f1a))
+
 ## [1.1.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.1.0...nestjs-authorization-v1.1.1) (2021-01-08)
 
 
