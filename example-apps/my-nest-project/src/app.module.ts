@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthorizationModule, PERMISSION_PROVIDER} from '@kittgen/nestjs-authorization';
+import { AuthorizationModule } from '@kittgen/nestjs-authorization';
+import { HttpsRedirectMiddleware } from '@kittgen/nestjs-https-redirect';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
@@ -10,12 +11,24 @@ import { InMemoryPermissionProvider } from './in-memory-permission.provider';
 @Module({
   imports: [AuthorizationModule],
   controllers: [AppController],
-  providers: [AppService, IsAuthor, {
-    provide: PERMISSION_PROVIDER,
-    useClass: InMemoryPermissionProvider
-  }, {
-    provide: APP_GUARD,
-    useClass: AuthnGuard
-  }],
+  providers: [
+    AppService,
+    IsAuthor,
+    {
+      provide: 'PERMISSION_PROVIDER',
+      useClass: InMemoryPermissionProvider,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthnGuard,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(HttpsRedirectMiddleware({ enabled: false })).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
