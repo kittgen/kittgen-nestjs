@@ -11,14 +11,40 @@ Permission based authorization for Nestjs.
 ```bash
 npm i @kittgen/nestjs-authorization
 ```
+### Define your Actions
+In classic RBAC literature `Actions` are called `Operations`. They are the same thing, we chose a different name.
+
+```ts
+import { CreateAction } from '@kittgen/nestjs-authorization';
+
+export const ReadArticles = CreateAction('read-articles')
+```
 
 ### Annotate your controllers
 
+#### Using Guards
+
 ```ts
+import { PermissionGuard } from '@kittgen/nestjs-authorization'
+import { ReadArticles } from './articles.auth-actions'
+
 @Get(':id')
 @UseGuards(
-  PermissionGuard([ArticleAuthAction.Read])
+  PermissionGuard([ReadArticles])
 )
+findOne(@Param('id') id: string) {
+    return this.articlesService.findOne(id);
+}
+```
+#### Using Decorator
+
+```ts
+import { CheckPermission } from '@kittgen/nestjs-authorization'
+import { ReadArticles } from './articles.auth-actions'
+
+@Get(':id')
+@CheckPermission([ReadArticles])
+
 findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
 }
