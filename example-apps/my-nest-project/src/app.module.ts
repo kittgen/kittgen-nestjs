@@ -10,9 +10,10 @@ import { AppService } from './app.service';
 import { IsAuthor } from './is-author.condition';
 import { AuthnGuard } from './authn.guard';
 import { InMemoryPermissionProvider } from './in-memory-permission.provider';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [AuthorizationModule],
+  imports: [AuthorizationModule, UsersModule],
   controllers: [AppController],
   providers: [
     AppService,
