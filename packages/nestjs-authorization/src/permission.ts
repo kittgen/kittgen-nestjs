@@ -1,3 +1,4 @@
+import { Action, ActionBuilder } from './action';
 import { Condition } from './condition';
 
 export interface Permission {
@@ -6,5 +7,17 @@ export interface Permission {
 }
 
 export class SimplePermission implements Permission {
-  constructor(readonly action: string, readonly condition?: Condition) {}
+  readonly action: string;
+  readonly condition?: Condition;
+
+  constructor(action: Action, condition?: Condition) {
+    let actionName = null;
+    if (action instanceof ActionBuilder) {
+      actionName = action.name;
+    } else {
+      actionName = action;
+    }
+    this.action = actionName;
+    this.condition = condition;
+  }
 }

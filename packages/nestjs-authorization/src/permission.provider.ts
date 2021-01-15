@@ -1,6 +1,6 @@
 import { PermissionSet } from './permission-set';
 
-export const PERMISSION_PROVIDER = 'PERMISSION_PROVIDER'
+export const PERMISSION_PROVIDER = 'PERMISSION_PROVIDER';
 
 export interface PermissionProvider {
   getPermissionSet(ctx: any): Promise<PermissionSet>;
