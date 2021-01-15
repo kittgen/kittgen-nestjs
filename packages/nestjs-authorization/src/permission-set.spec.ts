@@ -27,7 +27,7 @@ describe('PermissionSet', () => {
 
     permissions.add(new SimplePermission('foo'));
 
-    expect(await permissions.areAllowed(['foo'], context)).toBeTruthy();
+    expect(await permissions.isAllowed('foo', context)).toBeTruthy();
   });
 
   it('should accept permission with action builder', async () => {
@@ -36,7 +36,7 @@ describe('PermissionSet', () => {
     );
     const context = createMock<ExecutionContext>();
 
-    expect(await permissions.areAllowed(['foo'], context)).toBeTruthy();
+    expect(await permissions.isAllowed('foo', context)).toBeTruthy();
   });
 
   it('should accept for actions and lists of actions', async () => {
