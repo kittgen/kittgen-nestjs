@@ -7,11 +7,18 @@ export { SimplePermissionSet, PermissionSet } from './permission-set';
 export {
   PermissionProvider,
   AbstractPermissionProvider,
-  PERMISSION_PROVIDER
+  PERMISSION_PROVIDER,
 } from './permission.provider';
 export { NoopPermissionProvider } from './noop-permission-provider';
 export { Permission, SimplePermission } from './permission';
-export { createAction, Action, ActionBuilder, body } from './action';
+export {
+  Action,
+  ActionBuilder,
+  createAction,
+  body,
+  params,
+  query,
+} from './action';
 export { PermissionInterceptor } from './permission.interceptor';
 export { ExposeWithPermission } from './expose-with-permission.decorator';
 export { PermissionService } from './permission.service';

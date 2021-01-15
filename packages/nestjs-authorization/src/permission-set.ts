@@ -19,15 +19,14 @@ export interface PermissionSet {
 }
 
 export class SimplePermissionSet implements PermissionSet {
+  readonly permissions: Permission[];
 
-  readonly permissions: Permission[]
-
-  constructor(...permissions: Permission[]) {
-    this.permissions = permissions
+  constructor(...permissions: (Permission | Permission[])[]) {
+    this.permissions = permissions.flat();
   }
 
-  add(...permissions: Permission[]) {
-    this.permissions.push(...permissions);
+  add(...permissions: (Permission | Permission[])[]) {
+    this.permissions.push(...permissions.flat());
     return this;
   }
 

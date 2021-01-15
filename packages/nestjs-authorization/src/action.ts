@@ -5,7 +5,7 @@ export class ActionBuilder {
   constructor(
     readonly name: string,
     public condition?: ((dto: any) => boolean) | Type<Condition>
-  ) { }
+  ) {}
 
   if(
     condition: ((ctx: ExecutionContext) => boolean) | Type<Condition>

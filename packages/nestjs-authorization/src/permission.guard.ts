@@ -9,7 +9,6 @@ import { Action } from './action';
 import { PermissionProvider, PERMISSION_PROVIDER } from './permission.provider';
 import { PermissionService } from './permission.service';
 
-
 export const PermissionGuard = (...actions: Action[]) => {
   @Injectable()
   class PermissionGuardImpl implements CanActivate {
@@ -17,7 +16,7 @@ export const PermissionGuard = (...actions: Action[]) => {
       @Inject(PERMISSION_PROVIDER)
       private permissionProvider: PermissionProvider,
       private permissionService: PermissionService
-    ) { }
+    ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const req = context.switchToHttp().getRequest();
