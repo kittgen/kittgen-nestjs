@@ -11,7 +11,7 @@ export class SimplePermission implements Permission {
   readonly condition?: Condition;
 
   constructor(action: Action, condition?: Condition) {
-    let actionName = null;
+    let actionName;
     if (action instanceof ActionBuilder) {
       actionName = action.name;
     } else {
