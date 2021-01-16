@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { GetArticleDto } from './get-article.dto';
 import { IsAuthor } from './is-author.condition';
-import { CreateHelloDto as UpdateArticleDto } from './update-article.dto';
+import { UpdateArticleDto } from './update-article.dto';
 
 export class ArticleAction {
   static Read = createAction('read-article');
