@@ -1,16 +1,17 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { ConditionService } from './condition.service';
 import { PERMISSION_PROVIDER } from './permission.provider';
 import { AuthorizationModuleOptions } from './authorization-module-options.interface';
 
-@Global()
 @Module({})
 export class AuthorizationModule {
+  private static module: DynamicModule;
+
   static register({
     permissionProvider,
   }: AuthorizationModuleOptions): DynamicModule {
-    return {
+    this.module = {
       module: AuthorizationModule,
       providers: [
         ConditionService,
@@ -23,5 +24,10 @@ export class AuthorizationModule {
       ],
       exports: [ConditionService, PermissionService, PERMISSION_PROVIDER],
     };
+    return this.module;
+  }
+
+  static use() {
+    return this.module;
   }
 }

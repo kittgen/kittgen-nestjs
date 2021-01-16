@@ -1,6 +1,9 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { PERMISSION_PROVIDER } from '@kittgen/nestjs-authorization';
+import {
+  AuthorizationModule,
+  PERMISSION_PROVIDER,
+} from '@kittgen/nestjs-authorization';
 import { HttpsRedirectMiddleware } from '@kittgen/nestjs-https-redirect';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,7 +13,7 @@ import { InMemoryPermissionProvider } from './in-memory-permission.provider';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [UsersModule],
+  imports: [AuthorizationModule.use(), UsersModule],
   controllers: [AppController],
   providers: [
     AppService,
