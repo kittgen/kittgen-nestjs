@@ -4,6 +4,7 @@
     "target": "es6",
     "module": "esnext",
     "emitDecoratorMetadata": true,
+    "lib": ["dom", "esnext"], 
     "importHelpers": true,
     "sourceMap": true,
     "rootDir": "./src",
