@@ -93,7 +93,7 @@ import { MyPermissionProvider } from './my-permission-provider';
     }),
     // alternatively, you can register the provider asynchronously via `useFactory`
     // AuthorizationModule.registerAsync({
-    //   useFactory: async () => new InMemoryPermissionProvider(),
+    //   useFactory: async () => new MyPermissionProvider(),
     // }),
   ],
   // re-export if other modules want to do authorization as well
