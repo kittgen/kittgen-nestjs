@@ -5,6 +5,9 @@
   "author": "Ottgar",
   "private": false,
   "description": "Kittgen HTTPS redirect middleware for NestJS.",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "https",
     "redirect",
