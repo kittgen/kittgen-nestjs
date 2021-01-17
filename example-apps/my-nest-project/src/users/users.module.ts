@@ -4,8 +4,11 @@ import { InMemoryPermissionProvider } from '../in-memory-permission.provider';
 import { UsersController } from './users.controller';
 @Module({
   imports: [
-    AuthorizationModule.register({
-      permissionProvider: InMemoryPermissionProvider,
+    //AuthorizationModule.register({
+    //  useClass: InMemoryPermissionProvider,
+    //}),
+    AuthorizationModule.registerAsync({
+      useFactory: async () => new InMemoryPermissionProvider(),
     }),
   ],
   controllers: [UsersController],
