@@ -11,13 +11,15 @@ Permission based authorization for Nestjs.
 ```bash
 npm i @kittgen/nestjs-authorization
 ```
+
 ### Define your Actions
+
 In classic RBAC literature `Actions` are called `Operations`. They are the same thing, we chose a different name.
 
 ```ts
 import { createAction } from '@kittgen/nestjs-authorization';
 
-export const ReadArticles = createAction('read-articles')
+export const ReadArticles = createAction('read-articles');
 ```
 
 ### Annotate your controllers
@@ -36,6 +38,7 @@ findOne(@Param('id') id: string) {
     return this.articlesService.findOne(id);
 }
 ```
+
 #### Using Decorator
 
 ```ts
@@ -55,41 +58,48 @@ findOne(@Param('id') id: string) {
 #### Define a PermissionProvider
 
 ```ts
-import { AbstractPermissionProvider, PermissionSet, SimplePermissionSet, SimplePermission } from '@kittgen/nestjs-authorization'
+import {
+  AbstractPermissionProvider,
+  PermissionSet,
+  SimplePermissionSet,
+  SimplePermission,
+} from '@kittgen/nestjs-authorization';
 
 export class MyPermissionProvider extends AbstractPermissionProvider {
-    getPermissionSet(req: any): Promise<PermissionSet> {  
-       // implement your custom resolving logic here
-       // example:
-       return Promise.resolve(
-         new SimplePermissionSet(new SimplePermission('read-article')),
-       );
-    }
+  getPermissionSet(req: any): Promise<PermissionSet> {
+    // implement your custom resolving logic here
+    // example:
+    return Promise.resolve(
+      new SimplePermissionSet(new SimplePermission('read-article'))
+    );
+  }
 }
 ```
+
 #### Register your PermissionProvider
+
 ```ts
-import { AuthorizationModule, PERMISSION_PROVIDER } from '@kittgen/nestjs-authorization';
+import {
+  AuthorizationModule,
+  PERMISSION_PROVIDER,
+} from '@kittgen/nestjs-authorization';
 import { MyPermissionProvider } from './my-permission-provider';
 
 @Module({
   imports: [
     //...
-    AuthorizationModule
+    AuthorizationModule.register({
+      useClass: MyPermissionProvider,
+    }),
+    // alternatively, you can register the provider asynchronously via `useFactory`
+    // AuthorizationModule.registerAsync({
+    //   useFactory: async () => new InMemoryPermissionProvider(),
+    // }),
   ],
-  providers: [
-   //...
-   {
-      provide: PERMISSION_PROVIDER,
-      useClass: MyPermissionProvider
-    },
-  ],
-  exports: [
-    AuthorizationModule,
-    PERMISSION_PROVIDER
-  ]
+  // re-export if other modules want to do authorization as well
+  exports: [AuthorizationModule],
 })
-export class AppModule { }
+export class MyModule {}
 ```
 
 ## Local Development
@@ -97,6 +107,7 @@ export class AppModule { }
 ### Local Library Development
 
 #### Important Commands
+
 ```bash
 
 # start in watcher mode
