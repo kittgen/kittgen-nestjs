@@ -1,4 +1,5 @@
 {
+  "extends": "semantic-release-monorepo",
   "branches": ["main"],
   "tagFormat": "nestjs-fluent-logger-v${version}",
   "plugins": [
