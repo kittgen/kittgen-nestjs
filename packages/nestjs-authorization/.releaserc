@@ -1,4 +1,5 @@
 {
+  "extends": "semantic-release-monorepo",
   "branches": ["main"],
   "tagFormat": "nestjs-authorization-v${version}",
   "plugins": [
