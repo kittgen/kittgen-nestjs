@@ -11,7 +11,7 @@
     "condition",
     "library",
     "nest",
-    "nestjs"
+    "nestjs",
     "roles",
     "rbac"
   ],
