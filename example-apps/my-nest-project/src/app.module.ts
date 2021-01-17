@@ -13,7 +13,7 @@ import { InMemoryPermissionProvider } from './in-memory-permission.provider';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [AuthorizationModule.use(), UsersModule],
+  imports: [UsersModule],
   controllers: [AppController],
   providers: [
     AppService,

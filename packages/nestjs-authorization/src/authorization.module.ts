@@ -6,12 +6,10 @@ import { AuthorizationModuleOptions } from './authorization-module-options.inter
 
 @Module({})
 export class AuthorizationModule {
-  private static module: DynamicModule;
-
   static register({
     permissionProvider,
   }: AuthorizationModuleOptions): DynamicModule {
-    this.module = {
+    return {
       module: AuthorizationModule,
       providers: [
         ConditionService,
@@ -24,10 +22,5 @@ export class AuthorizationModule {
       ],
       exports: [ConditionService, PermissionService, PERMISSION_PROVIDER],
     };
-    return this.module;
-  }
-
-  static use() {
-    return this.module;
   }
 }

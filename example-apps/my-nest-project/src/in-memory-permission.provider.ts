@@ -22,6 +22,8 @@ export class InMemoryPermissionProvider extends AbstractPermissionProvider {
         ),
       );
     }
-    return Promise.resolve(new SimplePermissionSet());
+    return Promise.resolve(
+      new SimplePermissionSet(new SimplePermission('hello-world')),
+    );
   }
 }
