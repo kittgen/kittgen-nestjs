@@ -1,0 +1,17 @@
+{
+  "extends": "semantic-release-monorepo",
+  "branches": ["main"],
+  "tagFormat": "nestjs-fluent-logger-v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    ["@semantic-release/git", {
+      "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
+      "message": "chore(release): nestjs-fluent-logger ${nextRelease.version}\n\n${nextRelease.notes}"
+    }],
+    "@semantic-release/github"
+  ],
+  "repositoryUrl": "https://github.com/kittgen/kittgen-nestjs"
+}

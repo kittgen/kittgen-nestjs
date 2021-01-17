@@ -1,0 +1,39 @@
+name: ci-nestjs-fluent-logger
+
+on:
+  push:
+    paths:
+      - 'packages/nestjs-fluent-logger/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'packages/nestjs-fluent-logger/**'
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: packages/nestjs-fluent-logger
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: load cache
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: node-${{ hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: npm test
+        run: npm test
