@@ -1,3 +1,12 @@
+# [@kittgen/nestjs-authorization-v1.4.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.3.0...nestjs-authorization-v1.4.0) (2021-01-17)
+
+
+### Features
+
+* add https middleware package ([#16](https://github.com/kittgen/kittgen-nestjs/issues/16)) ([b2cc3cf](https://github.com/kittgen/kittgen-nestjs/commit/b2cc3cf0138cae7b8e8c42123400d8115dce623d))
+* improved permission and permission-set api ([#19](https://github.com/kittgen/kittgen-nestjs/issues/19)) ([358af70](https://github.com/kittgen/kittgen-nestjs/commit/358af70dc3e2f61325085fa469d68b10202eaff5))
+* make authorization module dynamic ([#20](https://github.com/kittgen/kittgen-nestjs/issues/20)) ([4f60869](https://github.com/kittgen/kittgen-nestjs/commit/4f60869da0aff39bc3ed15dd095bc764f6e7c859))
+
 # [1.3.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.2.0...nestjs-authorization-v1.3.0) (2021-01-14)
 
 
