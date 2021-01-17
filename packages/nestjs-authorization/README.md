@@ -4,6 +4,14 @@ Permission based authorization for Nestjs.
 
 [Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs) for further information.
 
+## Feature Overview
+- Define `Actions` and respective `Permissions` permitting them.
+- Enables to implement RBAC (Role Based Access Control) easyly.
+- Annotate Controller with Permission checks.
+- Use Conditional Permissions Checks. e.g. `@CheckPermission(UpdateBlogPost.if(IsAuthor))'.
+- Designed for use database managed permissions and conditions.
+- Permission based Dto filtering. Only expose fields you have the permission for.
+
 ## Usage
 
 ### Installation
