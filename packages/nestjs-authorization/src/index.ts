@@ -1,6 +1,7 @@
 export { CheckPermission } from './check-permission.decorator';
 export { PermissionGuard } from './permission.guard';
 export { AuthorizationModule } from './authorization.module';
+export { AuthorizationModuleOptions } from './authorization-module-options.interface';
 export { Condition, AbstractCondition, ConditionContext } from './condition';
 export { ConditionService as ConditionsService } from './condition.service';
 export { SimplePermissionSet, PermissionSet } from './permission-set';

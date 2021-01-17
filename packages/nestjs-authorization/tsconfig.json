@@ -4,10 +4,10 @@
     "target": "es6",
     "module": "esnext",
     "emitDecoratorMetadata": true,
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "esnext"], 
     "importHelpers": true,
     "sourceMap": true,
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "noImplicitAny": true,
     "experimentalDecorators": true,
@@ -25,7 +25,6 @@
     "paths": {
       "*": ["src/*", "node_modules/*"]
     },
-    "jsx": "react",
     "esModuleInterop": true
   }
 }

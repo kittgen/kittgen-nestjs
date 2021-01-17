@@ -1,12 +1,12 @@
-import { IsBoolean, IsNumber, IsString } from 'class-validator'
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
-export class CreateHelloDto {
-    @IsString()
-    name: string;
+export class UpdateArticleDto {
+  @IsString()
+  name: string;
 
-    @IsBoolean()
-    published: boolean;
+  @IsBoolean()
+  published: boolean;
 
-    @IsNumber()
-    authorId: number;
+  @IsNumber()
+  authorId: number;
 }
