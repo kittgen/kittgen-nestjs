@@ -11,7 +11,9 @@
     "condition",
     "library",
     "nest",
-    "nestjs"
+    "nestjs",
+    "roles",
+    "rbac"
   ],
   "contributors": [
     "Otto von Wesendonk",
