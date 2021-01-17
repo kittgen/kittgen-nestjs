@@ -39,7 +39,7 @@ describe('FluentLogger', () => {
             expect(internalLogMock).toHaveBeenCalledWith('log', '', undefined)
         })
 
-        it('should support multile key value pairs', () => {
+        it('should support multiple key value pairs', () => {
             const logger = new FluentLogger()
 
             logger.fluent()

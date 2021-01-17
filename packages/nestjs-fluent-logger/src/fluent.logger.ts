@@ -2,9 +2,10 @@ import { Logger } from '@nestjs/common';
 import { fully } from './redaction';
 
 export class FluentLogger extends Logger {
-  readonly keyValueSeperator: string;
-  readonly entrySeperator: string;
+  readonly keyValueSeparator: string;
+  readonly entrySeparator: string;
   readonly stringQuote: string;
+  readonly defaultRedactionStrategy: (input: any) => string
 
   constructor(
     context?: string,
@@ -12,9 +13,10 @@ export class FluentLogger extends Logger {
     options?: FluentLoggerOptions
   ) {
     super(context, isTimestampEnabled);
-    this.keyValueSeperator = options?.keyValueSeperator || '=';
-    this.entrySeperator = options?.entrySeperator || ' ';
+    this.keyValueSeparator = options?.keyValueSeparator || '=';
+    this.entrySeparator = options?.entrySeparator || ' ';
     this.stringQuote = options?.stringQuote || '"';
+    this.defaultRedactionStrategy = options?.defaultRedactionStrategy || fully
   }
 
   fluent() {
@@ -22,15 +24,16 @@ export class FluentLogger extends Logger {
   }
 }
 export interface FluentLoggerOptions {
-  readonly keyValueSeperator?: string;
-  readonly entrySeperator?: string;
+  readonly keyValueSeparator?: string;
+  readonly entrySeparator?: string;
   readonly stringQuote?: string;
+  readonly defaultRedactionStrategy?: (input: any) => string
 }
 
 export class FluentLogBuilder {
   private entries: string[][] = [];
 
-  constructor(readonly logger: FluentLogger) {}
+  constructor(readonly logger: FluentLogger) { }
 
   add(key: string, value: any): FluentLogBuilder {
     this.entries.push([key, String(value)]);
@@ -43,7 +46,7 @@ export class FluentLogBuilder {
     ...strategies: ((value: any) => string)[]
   ): FluentLogBuilder {
     if (!strategies || strategies.length == 0) {
-      this.add(key, fully(value));
+      this.add(key, this.logger.defaultRedactionStrategy(value));
       return this;
     }
 
@@ -57,8 +60,8 @@ export class FluentLogBuilder {
 
   asString() {
     return this.entries
-      .map(entry => entry.join(this.logger.keyValueSeperator))
-      .join(this.logger.entrySeperator);
+      .map(entry => entry.join(this.logger.keyValueSeparator))
+      .join(this.logger.entrySeparator);
   }
 
   error(trace?: string, context?: string): void {

@@ -53,7 +53,7 @@ FluentLogger supports same log levels as the Nest logger.
 ```
 #### Context
 
-It accepts the same arguments as Nest, like e.g. Context. Just without the message part, which is generated through the key value paris.
+It accepts the same arguments as Nest, like e.g. Context. Just without the message part, which is generated through the key value pairs.
 
 ```ts
   logger.fluent()

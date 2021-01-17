@@ -12,7 +12,7 @@ import {
 
 describe('Redactions', () => {
   describe('using half', () => {
-    it('should redact like ussing firstHalf', () => {
+    it('should redact like using firstHalf', () => {
       const result = half('Eddy');
 
       expect(result).toBe('██dy');
@@ -38,7 +38,7 @@ describe('Redactions', () => {
       expect(result).toBe('██dy');
     });
 
-    it('should favor redacting more when input is uneven', () => {
+    it('should favor redacting more when input has odd length', () => {
       const result = firstHalf('Edgar');
 
       expect(result).toBe('███ar');
@@ -58,7 +58,7 @@ describe('Redactions', () => {
       expect(result).toBe('Ed██');
     });
 
-    it('should favor redacting more when input is uneven', () => {
+    it('should favor redacting more when input has odd length', () => {
       const result = lastHalf('Edgar');
 
       expect(result).toBe('Ed███');
@@ -132,7 +132,7 @@ describe('Redactions', () => {
       expect(result).toBe('██dy@example.com');
     });
 
-    it('should redact local half uneven part of email', () => {
+    it('should redact local half part of email with odd length', () => {
       const result = emailLocalHalf('edgar@example.com');
 
       expect(result).toBe('███ar@example.com');
@@ -172,7 +172,7 @@ describe('Redactions', () => {
       expect(result).toBe('eddy@██.c');
     });
 
-    it('should redact half of domain part of email if uneven', () => {
+    it('should redact half of domain part of email has odd length', () => {
       const result = emailDomainHalf('eddy@a.b');
 
       expect(result).toBe('eddy@██b');
