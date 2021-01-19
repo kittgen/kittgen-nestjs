@@ -8,7 +8,6 @@ import { IsAuthor } from './is-author.condition';
 import { AuthnGuard } from './authn.guard';
 import { UsersModule } from './users/users.module';
 import { InMemoryPermissionProvider } from './common/in-memory-permission.provider';
-import { UsersApiModule } from './users/user-api.module';
 import { CommonModule } from './common/common.module';
 
 @Module({
@@ -24,8 +23,6 @@ import { CommonModule } from './common/common.module';
       },
     }),
     UsersModule,
-    // provides user controller
-    UsersApiModule,
   ],
   controllers: [AppController],
   providers: [

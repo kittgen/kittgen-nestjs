@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersModule } from '../users/users.module';
 import { AuthorizationConfigService } from './authorization-config.service';
 import { InMemoryPermissionProvider } from './in-memory-permission.provider';
 
 @Module({
-  imports: [UsersModule],
+  imports: [forwardRef(() => UsersModule)],
   providers: [AuthorizationConfigService, InMemoryPermissionProvider],
   controllers: [],
   exports: [AuthorizationConfigService, InMemoryPermissionProvider],
