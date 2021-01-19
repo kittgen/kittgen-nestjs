@@ -10,6 +10,7 @@ import { AbstractPermissionProvider } from './permission.provider';
 import { SimplePermissionSet } from './permission-set';
 import { Action, createAction } from './action';
 import { PermissionService } from './permission.service';
+import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
@@ -101,11 +102,11 @@ function createTestModule(actions: Action[]) {
       AlwaysFalseCondition,
       AlwaysTrueCondition,
       {
-        provide: 'PERMISSION_PROVIDER',
+        provide: AUTHORIZATION_MODULE_OPTIONS,
         inject: [ConditionService],
-        useFactory: (conditionsService: ConditionService) => {
-          return new TestPermissionProivider(conditionsService);
-        },
+        useFactory: (conditionsService: ConditionService) => ({
+          permissionProvider: new TestPermissionProivider(conditionsService),
+        }),
       },
       {
         provide: 'GUARD',
