@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --target node",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
