@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.3](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.2...nestjs-authorization-v1.4.3) (2021-01-21)
+
+
+### Bug Fixes
+
+* **authz:** keep min suffix during prod build ([#30](https://github.com/kittgen/kittgen-nestjs/issues/30)) ([078d196](https://github.com/kittgen/kittgen-nestjs/commit/078d1961c5fc5b7c0c79c813f204c1f54d26e967))
+
 # [@kittgen/nestjs-authorization-v1.4.2](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.1...nestjs-authorization-v1.4.2) (2021-01-21)
 
 
