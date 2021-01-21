@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-https-redirect-v1.0.2](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-https-redirect-v1.0.1...nestjs-https-redirect-v1.0.2) (2021-01-21)
+
+
+### Bug Fixes
+
+* call next for secured requests ([#27](https://github.com/kittgen/kittgen-nestjs/issues/27)) ([5976028](https://github.com/kittgen/kittgen-nestjs/commit/59760284b1477f3ea735cb31c1c8deb33bba885f))
+
 # [@kittgen/nestjs-https-redirect-v1.0.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-https-redirect-v1.0.0...nestjs-https-redirect-v1.0.1) (2021-01-17)
 
 
