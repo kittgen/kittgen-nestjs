@@ -25,6 +25,16 @@ describe('HttpsRedirectMiddleware', () => {
       middleware = new ctor();
     });
 
+    it('should call next for secured request', () => {
+      const req = createRequest(true);
+      const res = createResponse();
+
+      middleware.use(req, res, next);
+
+      expect(res.redirect).not.toBeCalled();
+      expect(next).toHaveBeenCalled();
+    });
+
     it('should redirect unsecured request', () => {
       const req = createRequest(false);
       const res = createResponse();
