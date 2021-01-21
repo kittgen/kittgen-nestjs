@@ -17,6 +17,8 @@ export function HttpsRedirectMiddleware(
       if (!req.secure) {
         const redirectUrl = `https://${req.hostname}${req.originalUrl}`;
         res.redirect(HttpStatus.PERMANENT_REDIRECT, redirectUrl);
+      } else {
+        next();
       }
     }
   }
