@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.0...nestjs-authorization-v1.4.1) (2021-01-21)
+
+
+### Bug Fixes
+
+* provide async dynamic module ([#26](https://github.com/kittgen/kittgen-nestjs/issues/26)) ([6d142e3](https://github.com/kittgen/kittgen-nestjs/commit/6d142e38053c6b337488ea86dd8a8418227c331a))
+
 # [@kittgen/nestjs-authorization-v1.4.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.3.0...nestjs-authorization-v1.4.0) (2021-01-17)
 
 
