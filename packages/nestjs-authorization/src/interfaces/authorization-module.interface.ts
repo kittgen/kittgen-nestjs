@@ -7,7 +7,6 @@ export interface AuthorizationOptionsFactory {
 
 export interface AuthorizationOptions {
   permissionProvider: PermissionProvider;
-  isGlobal?: boolean;
 }
 
 export interface AuthorizationModuleAsyncOptions
