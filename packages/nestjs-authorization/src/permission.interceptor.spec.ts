@@ -29,7 +29,9 @@ const createPermissionInterceptor = (
   const interceptor = new PermissionInterceptor(
     new Reflector(),
     undefined,
-    permissionProvider,
+    {
+      permissionProvider,
+    },
     new PermissionService({} as ConditionService)
   );
   return interceptor;

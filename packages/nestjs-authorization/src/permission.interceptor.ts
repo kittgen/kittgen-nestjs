@@ -11,21 +11,25 @@ import { ClassTransformOptions } from 'class-transformer';
 import { Observable, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { REQUEST } from '@nestjs/core';
-import { PermissionProvider } from './permission.provider';
 import { Action } from './action';
 import { PermissionService } from './permission.service';
+import { AuthorizationOptions } from './interfaces/authorization-module.interface';
+import { PermissionProvider } from './permission.provider';
+import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PermissionInterceptor extends ClassSerializerInterceptor {
+  private provider: PermissionProvider;
   constructor(
     @Inject('Reflector') protected readonly reflector: any,
     @Inject(REQUEST) private request: any,
-    @Inject('PERMISSION_PROVIDER')
-    private permissionProvider: PermissionProvider,
+    @Inject(AUTHORIZATION_MODULE_OPTIONS)
+    options: AuthorizationOptions,
     private permissionService: PermissionService,
     @Optional() protected readonly defaultOptions: ClassTransformOptions = {}
   ) {
     super(reflector, defaultOptions);
+    this.provider = options.permissionProvider;
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -36,9 +40,7 @@ export class PermissionInterceptor extends ClassSerializerInterceptor {
     );
     return next.handle().pipe(
       mergeMap(data => {
-        return from(
-          this.permissionProvider.getPermissionSet(this.request)
-        ).pipe(
+        return from(this.provider.getPermissionSet(this.request)).pipe(
           mergeMap(permissionSet => {
             const fields = Reflect.getMetadata('actions', data);
             return from(

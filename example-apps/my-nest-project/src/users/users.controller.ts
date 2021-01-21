@@ -3,15 +3,11 @@ import { Controller, Get } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
-  constructor() { }
+  constructor() {}
 
-
-  @CheckPermission(
-    'hello-world'
-  )
+  @CheckPermission('hello-world')
   @Get()
   async hello() {
-    return 'World!'
+    return 'World!';
   }
-
 }

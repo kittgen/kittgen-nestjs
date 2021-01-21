@@ -1,17 +1,20 @@
 import { AuthorizationModule } from '@kittgen/nestjs-authorization';
 import { Module } from '@nestjs/common';
-import { InMemoryPermissionProvider } from '../in-memory-permission.provider';
+import { AuthorizationConfigService } from '../common/authorization-config.service';
+import { CommonModule } from '../common/common.module';
 import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 @Module({
   imports: [
-    //AuthorizationModule.register({
-    //  useClass: InMemoryPermissionProvider,
-    //}),
     AuthorizationModule.registerAsync({
-      useFactory: async () => new InMemoryPermissionProvider(),
+      imports: [CommonModule],
+      // useExisting: AuthorizationConfigService,
+      // or
+      useClass: AuthorizationConfigService,
     }),
   ],
+  providers: [UsersService],
   controllers: [UsersController],
-  exports: [AuthorizationModule],
+  exports: [UsersService],
 })
 export class UsersModule {}
