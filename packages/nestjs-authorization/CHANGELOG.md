@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.2](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.1...nestjs-authorization-v1.4.2) (2021-01-21)
+
+
+### Bug Fixes
+
+* **authz:** disable minification during production build ([#29](https://github.com/kittgen/kittgen-nestjs/issues/29)) ([0104edd](https://github.com/kittgen/kittgen-nestjs/commit/0104edd7f2542170ff64da946b746962bd9e368a))
+
 # [@kittgen/nestjs-authorization-v1.4.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.0...nestjs-authorization-v1.4.1) (2021-01-21)
 
 
