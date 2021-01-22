@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.4](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.3...nestjs-authorization-v1.4.4) (2021-01-22)
+
+
+### Bug Fixes
+
+* **authz:** make global by default ([#34](https://github.com/kittgen/kittgen-nestjs/issues/34)) ([536f8d6](https://github.com/kittgen/kittgen-nestjs/commit/536f8d65b91f2053bdfc2f268dc0d635ba131c84))
+
 # [@kittgen/nestjs-authorization-v1.4.3](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.2...nestjs-authorization-v1.4.3) (2021-01-21)
 
 
