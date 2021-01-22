@@ -5,7 +5,7 @@ import {
   Injectable,
   mixin,
 } from '@nestjs/common';
-import { AuthorizationOptions } from './interfaces/authorization-module.interface';
+import { AuthorizationModuleOptions } from './interfaces/authorization-module.interface';
 import { Action } from './action';
 import { PermissionService } from './permission.service';
 import { PermissionProvider } from './permission.provider';
@@ -18,7 +18,7 @@ export const PermissionGuard = (...actions: Action[]) => {
 
     constructor(
       @Inject(AUTHORIZATION_MODULE_OPTIONS)
-      options: AuthorizationOptions,
+      options: AuthorizationModuleOptions,
       private permissionService: PermissionService
     ) {
       this.provider = options.permissionProvider;

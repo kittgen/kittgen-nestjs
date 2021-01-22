@@ -2,7 +2,7 @@ export { CheckPermission } from './check-permission.decorator';
 export { PermissionGuard } from './permission.guard';
 export { AuthorizationModule } from './authorization.module';
 export {
-  AuthorizationOptions,
+  AuthorizationModuleOptions,
   AuthorizationModuleAsyncOptions,
   AuthorizationOptionsFactory,
 } from './interfaces/authorization-module.interface';

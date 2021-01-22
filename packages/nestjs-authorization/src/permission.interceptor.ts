@@ -13,7 +13,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { REQUEST } from '@nestjs/core';
 import { Action } from './action';
 import { PermissionService } from './permission.service';
-import { AuthorizationOptions } from './interfaces/authorization-module.interface';
+import { AuthorizationModuleOptions } from './interfaces/authorization-module.interface';
 import { PermissionProvider } from './permission.provider';
 import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
 
@@ -24,7 +24,7 @@ export class PermissionInterceptor extends ClassSerializerInterceptor {
     @Inject('Reflector') protected readonly reflector: any,
     @Inject(REQUEST) private request: any,
     @Inject(AUTHORIZATION_MODULE_OPTIONS)
-    options: AuthorizationOptions,
+    options: AuthorizationModuleOptions,
     private permissionService: PermissionService,
     @Optional() protected readonly defaultOptions: ClassTransformOptions = {}
   ) {
