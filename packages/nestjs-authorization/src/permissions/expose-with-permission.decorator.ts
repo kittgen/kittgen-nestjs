@@ -1,4 +1,4 @@
-import { Action } from './action';
+import { Action } from '../actions/action';
 
 export function ExposeWithPermission(action: Action): PropertyDecorator {
   return (target, key) => {

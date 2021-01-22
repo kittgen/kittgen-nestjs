@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { isFunctionalCondition } from './condition';
-import { Action } from './action';
-import { ConditionService } from './condition.service';
+import { isFunctionalCondition } from '../conditions/condition';
+import { Action } from '../actions/action';
+import { ConditionService } from '../conditions/condition.service';
 import { PermissionSet } from './permission-set';
 
 @Injectable()

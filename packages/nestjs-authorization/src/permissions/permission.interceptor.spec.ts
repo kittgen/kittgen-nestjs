@@ -9,7 +9,7 @@ import { PermissionSet, SimplePermissionSet } from './permission-set';
 import { PermissionInterceptor } from './permission.interceptor';
 import { PermissionProvider } from './permission.provider';
 import { PermissionService } from './permission.service';
-import { ConditionService } from './condition.service';
+import { ConditionService } from '../conditions/condition.service';
 
 const createMockContext = (req: any) =>
   createMock<ExecutionContext>({

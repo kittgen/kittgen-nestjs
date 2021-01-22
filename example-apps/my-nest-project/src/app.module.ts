@@ -8,17 +8,16 @@ import { IsAuthor } from './is-author.condition';
 import { AuthnGuard } from './authn.guard';
 import { UsersModule } from './users/users.module';
 import { InMemoryPermissionProvider } from './common/in-memory-permission.provider';
-import { CommonModule } from './common/common.module';
+import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
     AuthorizationModule.registerAsync({
-      imports: [CommonModule],
-      inject: [InMemoryPermissionProvider],
-      useFactory: (provider: InMemoryPermissionProvider) => {
+      imports: [UsersModule],
+      inject: [UsersService],
+      useFactory: (userService: UsersService) => {
         return {
-          isGlobal: false,
-          permissionProvider: provider,
+          permissionProvider: new InMemoryPermissionProvider(userService),
         };
       },
     }),
