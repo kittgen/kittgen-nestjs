@@ -1,5 +1,5 @@
 import {
-  AuthorizationOptions,
+  AuthorizationModuleOptions,
   AuthorizationOptionsFactory,
 } from '@kittgen/nestjs-authorization';
 import { Injectable } from '@nestjs/common';
@@ -9,9 +9,10 @@ import { InMemoryPermissionProvider } from './in-memory-permission.provider';
 export class AuthorizationConfigService implements AuthorizationOptionsFactory {
   constructor(readonly provider: InMemoryPermissionProvider) {}
 
-  createOptions(): AuthorizationOptions | Promise<AuthorizationOptions> {
+  createOptions():
+    | AuthorizationModuleOptions
+    | Promise<AuthorizationModuleOptions> {
     return {
-      isGlobal: true,
       permissionProvider: this.provider,
     };
   }

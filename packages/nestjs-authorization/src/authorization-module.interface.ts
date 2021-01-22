@@ -1,5 +1,5 @@
 import { Abstract, ModuleMetadata, Provider, Type } from '@nestjs/common';
-import { PermissionProvider } from '../permission.provider';
+import { PermissionProvider } from './permissions/permission.provider';
 
 export interface AuthorizationOptionsFactory {
   createOptions():

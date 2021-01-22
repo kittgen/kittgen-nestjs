@@ -5,11 +5,11 @@ import {
   Injectable,
   mixin,
 } from '@nestjs/common';
-import { AuthorizationModuleOptions } from './interfaces/authorization-module.interface';
-import { Action } from './action';
+import { AuthorizationModuleOptions } from '../authorization-module.interface';
+import { Action } from '../actions/action';
 import { PermissionService } from './permission.service';
 import { PermissionProvider } from './permission.provider';
-import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
+import { AUTHORIZATION_MODULE_OPTIONS } from '../authorization.constants';
 
 export const PermissionGuard = (...actions: Action[]) => {
   @Injectable()

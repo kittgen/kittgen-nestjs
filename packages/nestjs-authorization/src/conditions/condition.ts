@@ -1,6 +1,6 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { Action } from './action';
-import { Permission } from './permission';
+import { Action } from '../actions/action';
+import { Permission } from '../permissions/permission';
 import { ConditionService } from './condition.service';
 
 export interface ConditionContext {

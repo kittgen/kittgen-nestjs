@@ -1,5 +1,5 @@
 import { ExecutionContext, Type } from '@nestjs/common';
-import { Condition } from './condition';
+import { Condition } from '../conditions/condition';
 
 export class ActionBuilder {
   constructor(

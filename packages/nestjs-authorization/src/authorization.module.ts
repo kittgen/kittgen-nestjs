@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { PermissionService } from './permission.service';
-import { ConditionService } from './condition.service';
-import { AuthorizationModuleAsyncOptions } from './interfaces/authorization-module.interface';
+import { PermissionService } from './permissions/permission.service';
+import { ConditionService } from './conditions/condition.service';
+import { AuthorizationModuleAsyncOptions } from './authorization-module.interface';
 import { AuthorizationCoreModule } from './authorization-core.module';
 @Module({
   providers: [ConditionService, PermissionService],

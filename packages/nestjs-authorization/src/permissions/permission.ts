@@ -1,5 +1,5 @@
-import { Action, ActionBuilder } from './action';
-import { Condition } from './condition';
+import { Action, ActionBuilder } from '../actions/action';
+import { Condition } from '../conditions/condition';
 
 export interface Permission {
   readonly action: string;

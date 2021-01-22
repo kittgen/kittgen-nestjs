@@ -11,11 +11,11 @@ import { ClassTransformOptions } from 'class-transformer';
 import { Observable, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 import { REQUEST } from '@nestjs/core';
-import { Action } from './action';
+import { Action } from '../actions/action';
 import { PermissionService } from './permission.service';
-import { AuthorizationModuleOptions } from './interfaces/authorization-module.interface';
+import { AuthorizationModuleOptions } from '../authorization-module.interface';
 import { PermissionProvider } from './permission.provider';
-import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
+import { AUTHORIZATION_MODULE_OPTIONS } from '../authorization.constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PermissionInterceptor extends ClassSerializerInterceptor {

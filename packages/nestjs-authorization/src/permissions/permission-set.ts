@@ -1,5 +1,5 @@
 import { ExecutionContext } from '@nestjs/common';
-import { Action } from './action';
+import { Action } from '../actions/action';
 import { Permission } from './permission';
 
 const filterAsync = async (arr: any[], pred: (el: any) => Promise<boolean>) => {

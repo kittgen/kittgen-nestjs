@@ -1,6 +1,6 @@
 import { createMock } from '@golevelup/nestjs-testing';
 import { ExecutionContext } from '@nestjs/common';
-import { createAction } from './action';
+import { createAction } from '../actions/action';
 import { SimplePermission } from './permission';
 import { SimplePermissionSet } from './permission-set';
 

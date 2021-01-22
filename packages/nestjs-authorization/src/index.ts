@@ -1,21 +1,27 @@
-export { CheckPermission } from './check-permission.decorator';
-export { PermissionGuard } from './permission.guard';
+export { CheckPermission } from './permissions/check-permission.decorator';
+export { PermissionGuard } from './permissions/permission.guard';
 export { AuthorizationModule } from './authorization.module';
 export {
   AuthorizationModuleOptions,
   AuthorizationModuleAsyncOptions,
   AuthorizationOptionsFactory,
-} from './interfaces/authorization-module.interface';
-export { Condition, AbstractCondition, ConditionContext } from './condition';
-export { ConditionService as ConditionsService } from './condition.service';
-export { SimplePermissionSet, PermissionSet } from './permission-set';
+} from './authorization-module.interface';
+export {
+  Condition,
+  AbstractCondition,
+  ConditionContext,
+} from './conditions/condition';
+export { ConditionService as ConditionsService } from './conditions/condition.service';
+export {
+  SimplePermissionSet,
+  PermissionSet,
+} from './permissions/permission-set';
 export {
   PermissionProvider,
   AbstractPermissionProvider,
-  PERMISSION_PROVIDER,
-} from './permission.provider';
-export { NoopPermissionProvider } from './noop-permission-provider';
-export { Permission, SimplePermission } from './permission';
+} from './permissions/permission.provider';
+export { NoopPermissionProvider } from './permissions/noop-permission-provider';
+export { Permission, SimplePermission } from './permissions/permission';
 export {
   Action,
   ActionBuilder,
@@ -23,7 +29,7 @@ export {
   body,
   params,
   query,
-} from './action';
-export { PermissionInterceptor } from './permission.interceptor';
-export { ExposeWithPermission } from './expose-with-permission.decorator';
-export { PermissionService } from './permission.service';
+} from './actions/action';
+export { PermissionInterceptor } from './permissions/permission.interceptor';
+export { ExposeWithPermission } from './permissions/expose-with-permission.decorator';
+export { PermissionService } from './permissions/permission.service';

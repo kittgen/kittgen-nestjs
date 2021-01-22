@@ -1,12 +1,12 @@
 import { DynamicModule, Global, Provider, Type } from '@nestjs/common';
 import { Module } from '@nestjs/common';
 import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
-import { ConditionService } from './condition.service';
+import { ConditionService } from './conditions/condition.service';
 import {
   AuthorizationModuleAsyncOptions,
   AuthorizationOptionsFactory,
-} from './interfaces/authorization-module.interface';
-import { PermissionService } from './permission.service';
+} from './authorization-module.interface';
+import { PermissionService } from './permissions/permission.service';
 
 @Global()
 @Module({})
@@ -28,11 +28,6 @@ export class AuthorizationCoreModule {
     };
   }
 
-  /**
-   * Returns the asynchrnous providers depending on the given module
-   * options
-   * @param options Options for the asynchrnous terminus module
-   */
   private static createAsyncProviders(
     options: AuthorizationModuleAsyncOptions
   ): Provider[] {

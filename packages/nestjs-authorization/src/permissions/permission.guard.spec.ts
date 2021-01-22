@@ -4,13 +4,13 @@ import { Test } from '@nestjs/testing';
 import { SimplePermission } from './permission';
 import { PermissionGuard } from './permission.guard';
 import { HttpArgumentsHost, INestApplication } from '@nestjs/common/interfaces';
-import { AbstractCondition } from './condition';
-import { ConditionService } from './condition.service';
+import { AbstractCondition } from '../conditions/condition';
+import { ConditionService } from '../conditions/condition.service';
 import { AbstractPermissionProvider } from './permission.provider';
 import { SimplePermissionSet } from './permission-set';
-import { Action, createAction } from './action';
+import { Action, createAction } from '../actions/action';
 import { PermissionService } from './permission.service';
-import { AUTHORIZATION_MODULE_OPTIONS } from './authorization.constants';
+import { AUTHORIZATION_MODULE_OPTIONS } from '../authorization.constants';
 
 @Injectable()
 class AlwaysTrueCondition extends AbstractCondition {
