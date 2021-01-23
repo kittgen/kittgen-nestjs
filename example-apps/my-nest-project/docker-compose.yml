@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  db:
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    expose:
+      - "${DATABASE_PORT:-5432}"
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=my-nest-project

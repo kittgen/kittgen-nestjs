@@ -9,6 +9,8 @@ import { AuthnGuard } from './authn.guard';
 import { UsersModule } from './users/users.module';
 import { InMemoryPermissionProvider } from './common/in-memory-permission.provider';
 import { UsersService } from './users/users.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './users/user.entity';
 
 @Module({
   imports: [
@@ -22,6 +24,20 @@ import { UsersService } from './users/users.service';
       },
     }),
     UsersModule,
+    TypeOrmModule.forRootAsync({
+      useFactory() {
+        return {
+          type: 'postgres',
+          host: 'localhost',
+          port: 5432,
+          username: 'postgres',
+          password: 'password',
+          database: 'my-nest-project',
+          entities: [User],
+          synchronize: true,
+        };
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [
