@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpsRedirectMiddleware } from '@kittgen/nestjs-https-redirect';
+import { TypeOrmHistoryModule } from '@kittgen/nestjs-typeorm-history';
 import { AuthorizationModule } from '@kittgen/nestjs-authorization';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +12,8 @@ import { InMemoryPermissionProvider } from './common/in-memory-permission.provid
 import { UsersService } from './users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
+import { UserHistory } from './users/user-history.entity';
+import { AllExceptionFiler } from './all-exception.filter';
 
 @Module({
   imports: [
@@ -33,10 +36,18 @@ import { User } from './users/user.entity';
           username: 'postgres',
           password: 'password',
           database: 'my-nest-project',
-          entities: [User],
+          entities: [User, UserHistory],
           synchronize: true,
         };
       },
+    }),
+    TypeOrmHistoryModule.register({
+      entities: [
+        {
+          entity: User,
+          history: UserHistory,
+        },
+      ],
     }),
   ],
   controllers: [AppController],
@@ -46,6 +57,10 @@ import { User } from './users/user.entity';
     {
       provide: APP_GUARD,
       useClass: AuthnGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionFiler,
     },
   ],
 })
