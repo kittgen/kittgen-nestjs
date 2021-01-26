@@ -141,7 +141,7 @@ describe('PermissionGuard', () => {
     expect(await guard.canActivate(context)).toBeFalsy();
   });
 
-  it('canActivate should return true if user has permission and condition is fulfillled', async () => {
+  it('canActivate should return true if user has permission and condition is fulfilled', async () => {
     const app = await initApp('write');
     const guard = app.get('GUARD');
     const context = createMockContext({ user: { id: 'uid-4' } });
