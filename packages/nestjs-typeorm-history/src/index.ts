@@ -1,8 +1,10 @@
+export { HistoryColumn } from './history-column.decorator';
+export { MappedColumn } from './mapped-column.decorator';
 export {
-  HistoryActionKind,
-  HistoryColumn,
   History,
+  HistoryActionKind,
+  HistoryEntityMapping,
   HistoryEntitySubscriberInterface,
-} from './common';
-export { TypeOrmHistoryModuleOptions } from './typeorm-history.interface';
+  TypeOrmHistoryModuleOptions,
+} from './typeorm-history.interface';
 export { TypeOrmHistoryModule } from './typeorm-history.module';

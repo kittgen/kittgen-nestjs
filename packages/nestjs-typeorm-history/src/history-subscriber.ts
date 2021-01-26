@@ -10,9 +10,10 @@ import {
   History,
   HistoryActionKind,
   HistoryEntitySubscriberInterface,
-} from './common';
+} from './typeorm-history.interface';
+import { TYPEORM_HISTORY_MAPPED_COLUMNS } from './typeorm-history.constants';
 
-export const createHistorySubscriber = <E, H extends History & E>(
+export const createHistorySubscriber = <E, H extends History<E>>(
   entity: Function,
   historyEntity: Function
 ) => {
@@ -20,7 +21,7 @@ export const createHistorySubscriber = <E, H extends History & E>(
 };
 
 @EventSubscriber()
-export class HistoryEntitySubscriber<E, H extends History & E>
+export class HistoryEntitySubscriber<E, H extends History<E>>
   implements HistoryEntitySubscriberInterface<E, H> {
   constructor(readonly entity: Function, readonly historyEntity: Function) {}
 
@@ -48,11 +49,18 @@ export class HistoryEntitySubscriber<E, H extends History & E>
     manager: Readonly<EntityManager>,
     entity: E
   ): H | Promise<H> {
-    return manager.create(this.historyEntity, entity);
+    const e: E = manager.create(this.entity, entity);
+    const hist: H = manager.create(this.historyEntity);
+    const props = Reflect.getMetadata(TYPEORM_HISTORY_MAPPED_COLUMNS, hist);
+    props.forEach(
+      ([prop, mappingFn]: [string, (e: E) => any]) =>
+        ((hist as any)[prop] = mappingFn(e))
+    );
+    hist.payload = e;
+    return hist;
   }
 
   public async afterInsert(event: InsertEvent<E>): Promise<void> {
-    console.log('AAA');
     await this.createHistory(
       event.manager,
       event.metadata,
@@ -101,7 +109,6 @@ export class HistoryEntitySubscriber<E, H extends History & E>
     history.action = action;
 
     for (const primaryColumn of metadata.primaryColumns) {
-      history.entityId = Reflect.get(history, primaryColumn.propertyName);
       Reflect.deleteProperty(history, primaryColumn.propertyName);
     }
 
