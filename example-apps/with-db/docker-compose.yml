@@ -9,4 +9,4 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=my-nest-project
+      - POSTGRES_DB=my-nest-project-with-db
