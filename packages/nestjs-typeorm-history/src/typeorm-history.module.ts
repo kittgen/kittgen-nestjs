@@ -5,7 +5,7 @@ import { TypeOrmHistoryModuleOptions } from './typeorm-history.interface';
 
 @Module({})
 export class TypeOrmHistoryModule {
-  static register(options: TypeOrmHistoryModuleOptions): DynamicModule {
+  static register(options: TypeOrmHistoryModuleOptions = {}): DynamicModule {
     return {
       module: TypeOrmHistoryModule,
       providers: [
