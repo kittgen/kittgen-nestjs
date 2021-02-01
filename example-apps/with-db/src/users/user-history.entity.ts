@@ -1,24 +1,26 @@
 import {
-  History,
-  HistoryActionKind,
-  HistoryColumn,
+  SnapshotColumn,
+  HistoryFor,
+  HistoryActionType,
+  HistoryActionColumn,
   MappedColumn,
 } from '@kittgen/nestjs-typeorm-history';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
-export class UserHistory implements History<User> {
+@HistoryFor(User)
+export class UserHistory {
   @PrimaryGeneratedColumn()
   id: number;
 
   // You can also use embedded entities instead of JSON blobs
-  // @Column(() => User, { prefix: 'user' })
+  // @SnapshotColumn(() => User, { prefix: 'user' })
   // payload: User;
-  @Column({
+  @SnapshotColumn({
     type: 'jsonb',
   })
-  payload: User;
+  payload1: User;
 
   @MappedColumn<User>((user: User) => user.firstName, { name: 'nickname' })
   nickname: string;
@@ -26,6 +28,6 @@ export class UserHistory implements History<User> {
   @MappedColumn<User>((user: User) => user.lastName, { name: 'surname' })
   surname: string;
 
-  @HistoryColumn()
-  action: HistoryActionKind;
+  @HistoryActionColumn()
+  action: HistoryActionType;
 }

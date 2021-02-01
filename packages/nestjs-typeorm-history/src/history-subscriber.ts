@@ -7,13 +7,16 @@ import {
   UpdateEvent,
 } from 'typeorm';
 import {
-  History,
-  HistoryActionKind,
+  HistoryActionType,
   HistoryEntitySubscriberInterface,
 } from './typeorm-history.interface';
-import { TYPEORM_HISTORY_MAPPED_COLUMNS } from './typeorm-history.constants';
+import {
+  TYPEORM_HISTORY_SNAPSHOT_COLUMN,
+  TYPEORM_HISTORY_MAPPED_COLUMNS,
+  TYPEORM_HISTORY_ACTION_COLUMN,
+} from './typeorm-history.constants';
 
-export const createHistorySubscriber = <E, H extends History<E>>(
+export const createHistorySubscriber = <E, H extends Record<string, any>>(
   entity: Function,
   historyEntity: Function
 ) => {
@@ -21,7 +24,7 @@ export const createHistorySubscriber = <E, H extends History<E>>(
 };
 
 @EventSubscriber()
-export class HistoryEntitySubscriber<E, H extends History<E>>
+export class HistoryEntitySubscriber<E, H extends Record<string, any>>
   implements HistoryEntitySubscriberInterface<E, H> {
   constructor(readonly entity: Function, readonly historyEntity: Function) {}
 
@@ -52,11 +55,20 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
     const e: E = manager.create(this.entity, entity);
     const hist: H = manager.create(this.historyEntity);
     const props = Reflect.getMetadata(TYPEORM_HISTORY_MAPPED_COLUMNS, hist);
+    const snapshotProp = Reflect.getMetadata(
+      TYPEORM_HISTORY_SNAPSHOT_COLUMN,
+      hist
+    );
+    if (!snapshotProp) {
+      throw new Error(
+        'No @SnapshotColumn found. Please make sure that your history entity has one.'
+      );
+    }
     props.forEach(
       ([prop, mappingFn]: [string, (e: E) => any]) =>
         ((hist as any)[prop] = mappingFn(e))
     );
-    hist.payload = e;
+    (hist as any)[snapshotProp] = e;
     return hist;
   }
 
@@ -66,7 +78,7 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
       event.metadata,
       this.beforeInsertHistory,
       this.afterInsertHistory,
-      HistoryActionKind.Created,
+      HistoryActionType.Created,
       event.entity
     );
   }
@@ -77,7 +89,7 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
       event.metadata,
       this.beforeUpdateHistory,
       this.afterUpdateHistory,
-      HistoryActionKind.Updated,
+      HistoryActionType.Updated,
       event.entity
     );
   }
@@ -88,7 +100,7 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
       event.metadata,
       this.beforeRemoveHistory,
       this.afterRemoveHistory,
-      HistoryActionKind.Deleted,
+      HistoryActionType.Deleted,
       event.entity
     );
   }
@@ -98,7 +110,7 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
     metadata: Readonly<EntityMetadata>,
     beforeHistoryFunction: (history: H) => H | Promise<H>,
     afterHistoryFunction: (history: H) => void | Promise<void>,
-    action: Readonly<HistoryActionKind>,
+    action: Readonly<HistoryActionType>,
     entity?: E
   ): Promise<void> {
     if (!entity || Object.keys(metadata.propertiesMap).includes('action')) {
@@ -106,7 +118,16 @@ export class HistoryEntitySubscriber<E, H extends History<E>>
     }
 
     const history = await this.createHistoryEntity(manager, entity);
-    history.action = action;
+    const actionProp = Reflect.getMetadata(
+      TYPEORM_HISTORY_ACTION_COLUMN,
+      history
+    );
+    if (!actionProp) {
+      throw new Error(
+        'No @HistoryActionColumn found. Please make sure that your history entity has one.'
+      );
+    }
+    (history as any)[actionProp] = action;
 
     for (const primaryColumn of metadata.primaryColumns) {
       Reflect.deleteProperty(history, primaryColumn.propertyName);

@@ -1,6 +1,6 @@
 # Kittgen TypeORM History
 
-TypeORM based module for keeping a history of an entity.
+TypeORM based module for keeping a histories of an entities.
 
 [Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs) for further information.
 
@@ -20,34 +20,37 @@ npm i @kittgen/nestjs-typeorm-history
 
 ```ts
 import {
-  History,
-  HistoryActionKind,
-  HistoryColumn,
+  HistoryFor,
+  HistoryActionType,
+  HistoryActionColumn,
   MappedColumn,
+  SnapshotColumn,
 } from '@kittgen/nestjs-typeorm-history';
 
 @Entity()
-export class UserHistory implements History<User> {
+@HistoryFor(User) 
+export class UserHistory {
 
-  @Column({ type: 'jsonb' })
+  @SnapshotColumn({ type: 'jsonb' })
   payload: User
 
-  @HistoryColumn()
-  action: HistoryActionKind
+  @HistoryActionColumn()
+  action: HistoryActionType
 
   // optional, map payload properties as column
   @MappedColumn<User>((user: User) => user.firstName, { name: 'nickname' })
   nickname: string
 
   // any other properties
+  // ...
 }
 ```
 
-The `action` and `payload` properties are required. 
-`HistoryActionKind` supports three values: `CREATED`, `UPDATED` and `DELETED`.
+Properties decorated with `@SnapshotColumn` and `@HistoryActionColumn` are required. 
+`HistoryActionType` supports three possible values: `CREATED`, `UPDATED` and `DELETED`.
 
 The `MappedColumn` decorator can be used to map properties of an entity directly to a column.
-You don't need to use `jsonb`, alternativelly you can also use embedded entities:
+You don't need to use `jsonb`, alternatively you can also use embedded entities:
 
 ```ts
 @Column(() => User, { prefix: 'user' })
@@ -66,18 +69,10 @@ entities: [User, UserHistory],
 
 ### Register the module
 
-In the `imports` array of your module, add the `TypeOrmHistoryModule` and declare the mapping 
-of the entity and its history:
+In the `imports` array of your module, add the `TypeOrmHistoryModule`.
 
 ```ts
- TypeOrmHistoryModule.register({
-    entities: [
-      {
-        entity: User,
-        history: UserHistory,
-      },
-    ],
-  })
+ TypeOrmHistoryModule.register()
 ```
 
 ## Local Development

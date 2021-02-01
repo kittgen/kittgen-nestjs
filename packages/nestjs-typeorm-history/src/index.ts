@@ -1,8 +1,9 @@
-export { HistoryColumn } from './history-column.decorator';
+export { HistoryActionColumn } from './history-action-column.decorator';
 export { MappedColumn } from './mapped-column.decorator';
+export { HistoryFor } from './history-for.decorator';
+export { SnapshotColumn } from './snapshot-column.decorator';
 export {
-  History,
-  HistoryActionKind,
+  HistoryActionType,
   HistoryEntityMapping,
   HistoryEntitySubscriberInterface,
   TypeOrmHistoryModuleOptions,

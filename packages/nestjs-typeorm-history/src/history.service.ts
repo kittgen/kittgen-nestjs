@@ -1,8 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
-import { Connection, EntitySubscriberInterface } from 'typeorm';
+import {
+  Connection,
+  EntitySubscriberInterface,
+  getMetadataArgsStorage,
+} from 'typeorm';
 import { createHistorySubscriber } from './history-subscriber';
-import { TYPEORM_HISTORY_OPTIONS } from './typeorm-history.constants';
+import {
+  TYPEORM_HISTORY_HISTORY_FOR,
+  TYPEORM_HISTORY_OPTIONS,
+} from './typeorm-history.constants';
 import { TypeOrmHistoryModuleOptions } from './typeorm-history.interface';
 
 const createSubscriber = (
@@ -18,8 +25,20 @@ export class HistoryService {
     @InjectConnection() connection: Connection,
     @Inject(TYPEORM_HISTORY_OPTIONS) options: TypeOrmHistoryModuleOptions
   ) {
-    (options.entities || [])
-      .map(({ entity, history }) => createSubscriber(entity, history))
+    const entities = getMetadataArgsStorage().tables.reduce((acc, t) => {
+      const e = Reflect.getMetadata(TYPEORM_HISTORY_HISTORY_FOR, t.target);
+      if (e !== undefined) {
+        acc.push({
+          entity: e,
+          history: t.target,
+        });
+      }
+      return acc;
+    }, [] as any[]);
+    entities
+      .map(({ entity, history }) => {
+        return createSubscriber(entity, history);
+      })
       .forEach(subscriber => connection.subscribers.push(subscriber));
   }
 }

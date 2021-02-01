@@ -41,14 +41,7 @@ import { AllExceptionFiler } from './all-exception.filter';
         };
       },
     }),
-    TypeOrmHistoryModule.register({
-      entities: [
-        {
-          entity: User,
-          history: UserHistory,
-        },
-      ],
-    }),
+    TypeOrmHistoryModule.register(),
   ],
   controllers: [AppController],
   providers: [

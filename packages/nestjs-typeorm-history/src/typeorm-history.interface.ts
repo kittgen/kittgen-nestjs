@@ -5,14 +5,7 @@ export interface HistoryEntityMapping {
   history: Function;
 }
 
-export interface TypeOrmHistoryModuleOptions {
-  entities: HistoryEntityMapping[];
-}
-
-export interface History<E> {
-  payload: E;
-  action: HistoryActionKind;
-}
+export interface TypeOrmHistoryModuleOptions {}
 
 export interface HistoryEntitySubscriberInterface<E, H>
   extends EntitySubscriberInterface<E> {
@@ -34,7 +27,7 @@ export interface HistoryEntitySubscriberInterface<E, H>
   afterRemoveHistory(history: H): void | Promise<void>;
 }
 
-export enum HistoryActionKind {
+export enum HistoryActionType {
   Created = 'CREATED',
   Updated = 'UPDATED',
   Deleted = 'DELETED',
