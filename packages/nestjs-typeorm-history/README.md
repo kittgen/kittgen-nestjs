@@ -50,7 +50,7 @@ Properties decorated with `@SnapshotColumn` and `@HistoryActionColumn` are requi
 `HistoryActionType` supports three possible values: `CREATED`, `UPDATED` and `DELETED`.
 
 The `MappedColumn` decorator can be used to map properties of an entity directly to a column.
-You don't need to use `jsonb`, alternativelly you can also use embedded entities:
+You don't need to use `jsonb`, alternatively you can also use embedded entities:
 
 ```ts
 @Column(() => User, { prefix: 'user' })
