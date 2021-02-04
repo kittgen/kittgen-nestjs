@@ -55,6 +55,22 @@ action is only granted if the attached condition evaluates to true. For instance
 only succeeds if the `IsAuthor` condition also evaluates to true. Check the dummy implementation of the
 [IsAuthor](https://github.com/kittgen/kittgen-nestjs/blob/main/example-apps/with-db/src/is-author.condition.ts) condition for an example.
 
+```ts
+import { PermissionGuard } from '@kittgen/nestjs-authorization'
+import { ReadAllArticles, ReadArticle, IsAuthor } from './articles.auth-actions'
+
+@Get(':id')
+@UseGuards(
+  PermissionGuard(
+    ReadAllArticles
+    ReadArticle.if(IsAuthor)
+  )
+)
+findOne(@Param('id') id: string) {
+    return this.articlesService.findOne(id);
+}
+```
+
 #### Using Decorator
 
 ```ts
