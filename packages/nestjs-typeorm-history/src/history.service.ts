@@ -23,6 +23,7 @@ const createSubscriber = (
 export class HistoryService {
   constructor(
     @InjectConnection() connection: Connection,
+    //@ts-ignore
     @Inject(TYPEORM_HISTORY_OPTIONS) options: TypeOrmHistoryModuleOptions
   ) {
     const entities = getMetadataArgsStorage().tables.reduce((acc, t) => {
