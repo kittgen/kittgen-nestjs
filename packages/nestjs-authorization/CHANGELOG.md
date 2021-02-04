@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.5](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.4...nestjs-authorization-v1.4.5) (2021-02-04)
+
+
+### Bug Fixes
+
+* **authz:** move `patch-package` to deps ([#45](https://github.com/kittgen/kittgen-nestjs/issues/45)) ([6523f05](https://github.com/kittgen/kittgen-nestjs/commit/6523f0510aabfdc2da91879466a4832fff1452b2))
+
 # [@kittgen/nestjs-authorization-v1.4.4](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.3...nestjs-authorization-v1.4.4) (2021-01-22)
 
 
