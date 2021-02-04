@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-typeorm-history-v1.0.3](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.2...nestjs-typeorm-history-v1.0.3) (2021-02-04)
+
+
+### Bug Fixes
+
+* **history:** move `patch-package` to deps ([#46](https://github.com/kittgen/kittgen-nestjs/issues/46)) ([83152e6](https://github.com/kittgen/kittgen-nestjs/commit/83152e60bb051bd185c533b2395b3a7ab7cc4104))
+
 # [@kittgen/nestjs-typeorm-history-v1.0.2](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.1...nestjs-typeorm-history-v1.0.2) (2021-02-04)
 
 
