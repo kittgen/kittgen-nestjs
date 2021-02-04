@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-typeorm-history-v1.0.2](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.1...nestjs-typeorm-history-v1.0.2) (2021-02-04)
+
+
+### Bug Fixes
+
+* **history:** patch tsdx for prod release ([#44](https://github.com/kittgen/kittgen-nestjs/issues/44)) ([67fb794](https://github.com/kittgen/kittgen-nestjs/commit/67fb7944a96b90dfc9a4cfd2d0c46e5fd8b958f0))
+
 # [@kittgen/nestjs-typeorm-history-v1.0.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.0...nestjs-typeorm-history-v1.0.1) (2021-02-04)
 
 
