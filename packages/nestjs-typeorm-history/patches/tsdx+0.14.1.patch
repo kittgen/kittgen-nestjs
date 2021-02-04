@@ -1,0 +1,13 @@
+diff --git a/node_modules/tsdx/dist/index.js b/node_modules/tsdx/dist/index.js
+index d2322e5..19f736a 100755
+--- a/node_modules/tsdx/dist/index.js
++++ b/node_modules/tsdx/dist/index.js
+@@ -335,7 +335,7 @@ function writeCjsEntryFile(name) {
+ 'use strict'
+ 
+ if (process.env.NODE_ENV === 'production') {
+-  ${baseLine}.cjs.production.min.js')
++  ${baseLine}.cjs.production.js')
+ } else {
+   ${baseLine}.cjs.development.js')
+ }
