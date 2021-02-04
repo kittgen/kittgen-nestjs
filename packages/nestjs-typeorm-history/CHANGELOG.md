@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-typeorm-history-v1.0.1](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.0...nestjs-typeorm-history-v1.0.1) (2021-02-04)
+
+
+### Bug Fixes
+
+* fixed npm publishing ([b87a8b7](https://github.com/kittgen/kittgen-nestjs/commit/b87a8b793b9fed92cc451be8e104498850c8e050))
+
 # @kittgen/nestjs-typeorm-history-v1.0.0 (2021-02-04)
 
 
