@@ -100,6 +100,10 @@ We use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) fo
 
 This packages uses [TSDX](https://github.com/jaredpalmer/tsdx).
 
+## Credits
+
+This package is based on https://github.com/anchan828/typeorm-helpers
+
 ## License
 
 Kittgen is licensed under MIT. See LICENSE.
