@@ -5,24 +5,68 @@ import {
   Inject,
   Injectable,
   Optional,
-  Scope,
 } from '@nestjs/common';
 import { ClassTransformOptions } from 'class-transformer';
 import { Observable, from } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
-import { REQUEST } from '@nestjs/core';
 import { Action } from '../actions/action';
 import { PermissionService } from './permission.service';
 import { AuthorizationModuleOptions } from '../authorization-module.interface';
 import { PermissionProvider } from './permission.provider';
-import { AUTHORIZATION_MODULE_OPTIONS } from '../authorization.constants';
+import {
+  AUTHORIZATION_EXPOSED_WITH_PERMISSION_PROPS,
+  AUTHORIZATION_MODULE_OPTIONS,
+} from '../authorization.constants';
+import { PermissionSet } from './permission-set';
 
-@Injectable({ scope: Scope.REQUEST })
+const deepForEach = async (
+  obj: Record<string, any>,
+  fn: (value: any) => Promise<any>
+): Promise<Record<string, any>> => {
+  const updatedObj = await fn(obj);
+  return Object.keys(updatedObj).reduce(async (acc, key) => {
+    const updated = await acc;
+    if (Array.isArray(updated[key])) {
+      updated[key] = await Promise.all(
+        updated[key].map(async (el: any) => deepForEach(el, fn))
+      );
+    } else if (typeof updated[key] === 'object') {
+      updated[key] = await deepForEach(updated[key], fn);
+    }
+    return Promise.resolve(updated);
+  }, Promise.resolve(updatedObj));
+};
+
+const removeProps = (
+  permissionSet: PermissionSet,
+  permissionService: PermissionService,
+  context: ExecutionContext
+) => async (data: any): Promise<any> => {
+  if (typeof data !== 'object') {
+    return;
+  }
+  const props =
+    Reflect.getMetadata(AUTHORIZATION_EXPOSED_WITH_PERMISSION_PROPS, data) ||
+    [];
+  return await props.reduce(
+    async (result: any, [prop, action]: [string, Action]) => {
+      const res = await result;
+      if (
+        !(await permissionService.areAllowed([action], permissionSet, context))
+      ) {
+        delete res[prop];
+      }
+      return res;
+    },
+    Promise.resolve(data)
+  );
+};
+
+@Injectable()
 export class PermissionInterceptor extends ClassSerializerInterceptor {
   private provider: PermissionProvider;
   constructor(
     @Inject('Reflector') protected readonly reflector: any,
-    @Inject(REQUEST) private request: any,
     @Inject(AUTHORIZATION_MODULE_OPTIONS)
     options: AuthorizationModuleOptions,
     private permissionService: PermissionService,
@@ -40,25 +84,14 @@ export class PermissionInterceptor extends ClassSerializerInterceptor {
     );
     return next.handle().pipe(
       mergeMap(data => {
-        return from(this.provider.getPermissionSet(this.request)).pipe(
-          mergeMap(permissionSet => {
-            const fields = Reflect.getMetadata('actions', data);
+        return from(
+          this.provider.getPermissionSet(context.switchToHttp().getRequest())
+        ).pipe(
+          mergeMap((permissionSet: PermissionSet) => {
             return from(
-              fields.reduce(
-                async (result: any, [field, action]: [string, Action]) => {
-                  const res = await result;
-                  if (
-                    !(await this.permissionService.areAllowed(
-                      [action],
-                      permissionSet,
-                      context
-                    ))
-                  ) {
-                    delete res[field];
-                  }
-                  return res;
-                },
-                Promise.resolve(data)
+              deepForEach(
+                data,
+                removeProps(permissionSet, this.permissionService, context)
               )
             ).pipe(map((data: any) => this.serialize(data, options)));
           })

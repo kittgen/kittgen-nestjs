@@ -1,11 +1,20 @@
 import { Action } from '../actions/action';
+import { AUTHORIZATION_EXPOSED_WITH_PERMISSION_PROPS } from '../authorization.constants';
 
 export function ExposeWithPermission(action: Action): PropertyDecorator {
   return (target, key) => {
-    const fields = Reflect.getMetadata('actions', target) || [];
-    if (!fields.includes(key)) {
-      fields.push([key, action]);
+    const props =
+      Reflect.getMetadata(
+        AUTHORIZATION_EXPOSED_WITH_PERMISSION_PROPS,
+        target
+      ) || [];
+    if (!props.includes(key)) {
+      props.push([key, action]);
     }
-    Reflect.defineMetadata('actions', fields, target);
+    Reflect.defineMetadata(
+      AUTHORIZATION_EXPOSED_WITH_PERMISSION_PROPS,
+      props,
+      target
+    );
   };
 }
