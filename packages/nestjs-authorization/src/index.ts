@@ -11,7 +11,7 @@ export {
   AbstractCondition,
   ConditionContext,
 } from './conditions/condition';
-export { ConditionService as ConditionsService } from './conditions/condition.service';
+export { ConditionService } from './conditions/condition.service';
 export {
   SimplePermissionSet,
   PermissionSet,
