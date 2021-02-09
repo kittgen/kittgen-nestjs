@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.6](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.5...nestjs-authorization-v1.4.6) (2021-02-09)
+
+
+### Bug Fixes
+
+* **authz:** let permission interceptor handle nesting ([#48](https://github.com/kittgen/kittgen-nestjs/issues/48)) ([8f2d5c9](https://github.com/kittgen/kittgen-nestjs/commit/8f2d5c9cf5991b413ac0f9812eb779959dbdb162))
+
 # [@kittgen/nestjs-authorization-v1.4.5](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.4...nestjs-authorization-v1.4.5) (2021-02-04)
 
 
