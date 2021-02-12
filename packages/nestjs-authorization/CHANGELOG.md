@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.8](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.7...nestjs-authorization-v1.4.8) (2021-02-12)
+
+
+### Bug Fixes
+
+* **authz:** let deepForEach handle non-objects ([#50](https://github.com/kittgen/kittgen-nestjs/issues/50)) ([f9941de](https://github.com/kittgen/kittgen-nestjs/commit/f9941de8ff6f9505d178471a89aa3a7c099f7441))
+
 # [@kittgen/nestjs-authorization-v1.4.7](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.6...nestjs-authorization-v1.4.7) (2021-02-12)
 
 
