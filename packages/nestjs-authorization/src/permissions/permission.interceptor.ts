@@ -23,6 +23,9 @@ const deepForEach = async (
   obj: Record<string, any>,
   fn: (value: any) => Promise<any>
 ): Promise<Record<string, any>> => {
+  if (obj == null) {
+    return obj;
+  }
   const updatedObj = await fn(obj);
   return Object.keys(updatedObj).reduce(async (acc, key) => {
     const updated = await acc;
@@ -42,7 +45,7 @@ const removeProps = (
   permissionService: PermissionService,
   context: ExecutionContext
 ) => async (data: any): Promise<any> => {
-  if (typeof data !== 'object') {
+  if (typeof data !== 'object' || data == null) {
     return;
   }
   const props =
@@ -51,9 +54,12 @@ const removeProps = (
   return await props.reduce(
     async (result: any, [prop, action]: [string, Action]) => {
       const res = await result;
-      if (
-        !(await permissionService.areAllowed([action], permissionSet, context))
-      ) {
+      const allowed = await permissionService.areAllowed(
+        [action],
+        permissionSet,
+        context
+      );
+      if (!allowed) {
         delete res[prop];
       }
       return res;

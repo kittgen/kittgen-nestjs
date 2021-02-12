@@ -206,5 +206,61 @@ describe('PermissionInterceptor', () => {
       expect(dto).toHaveProperty('quux');
       expect(dto).not.toHaveProperty('dtos');
     });
+
+    it('should not fail on null without permission', async () => {
+      const callHandler = mockCallHandler(
+        new TestDto(null as any, null as any)
+      );
+      const interceptor = createPermissionInterceptor();
+
+      const dto = await interceptor
+        .intercept(createMockContext(), callHandler)
+        .toPromise();
+
+      expect(dto).not.toHaveProperty('foo');
+      expect(dto).toHaveProperty('bar');
+    });
+
+    it('should not fail on null with permission', async () => {
+      const callHandler = mockCallHandler(
+        new TestDto(null as any, null as any)
+      );
+      const interceptor = createPermissionInterceptor('can-read-foo');
+
+      const dto = await interceptor
+        .intercept(createMockContext(), callHandler)
+        .toPromise();
+
+      expect(dto).toHaveProperty('foo');
+      expect(dto).toHaveProperty('bar');
+    });
+
+    it('should not fail on undefined without permission', async () => {
+      const callHandler = mockCallHandler(
+        new TestDto(undefined as any, undefined as any)
+      );
+      const interceptor = createPermissionInterceptor();
+
+      const dto = await interceptor
+        .intercept(createMockContext(), callHandler)
+        .toPromise();
+
+      expect(dto).not.toHaveProperty('foo');
+      expect(dto).toHaveProperty('bar');
+    });
+
+    it('should not fail on undefined with permission', async () => {
+      const callHandler = mockCallHandler(
+        new TestDto(undefined as any, undefined as any)
+      );
+      const interceptor = createPermissionInterceptor('can-read-foo');
+
+      const dto = await interceptor
+        .intercept(createMockContext(), callHandler)
+        .toPromise();
+
+      expect(dto).toHaveProperty('foo');
+      expect(dto).toHaveProperty('bar');
+    });
   });
 });
