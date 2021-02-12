@@ -262,5 +262,16 @@ describe('PermissionInterceptor', () => {
       expect(dto).toHaveProperty('foo');
       expect(dto).toHaveProperty('bar');
     });
+
+    it('should not fail on non-object values', async () => {
+      const callHandler = mockCallHandler(false as any);
+      const interceptor = createPermissionInterceptor('can-read-foo');
+
+      const dto = await interceptor
+        .intercept(createMockContext(), callHandler)
+        .toPromise();
+
+      expect(dto).toBeFalsy();
+    });
   });
 });

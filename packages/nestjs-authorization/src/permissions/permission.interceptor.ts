@@ -23,7 +23,7 @@ const deepForEach = async (
   obj: Record<string, any>,
   fn: (value: any) => Promise<any>
 ): Promise<Record<string, any>> => {
-  if (obj == null) {
+  if (typeof obj !== 'object' || obj == null) {
     return obj;
   }
   const updatedObj = await fn(obj);
