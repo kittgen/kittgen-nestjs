@@ -1,3 +1,10 @@
+# [@kittgen/nestjs-authorization-v1.4.7](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.6...nestjs-authorization-v1.4.7) (2021-02-12)
+
+
+### Bug Fixes
+
+* **authz:** handle `null`/`undefined` in interceptor ([#49](https://github.com/kittgen/kittgen-nestjs/issues/49)) ([cb8d1f1](https://github.com/kittgen/kittgen-nestjs/commit/cb8d1f16d4450f094a3c8780fb75ed0b1857d22f))
+
 # [@kittgen/nestjs-authorization-v1.4.6](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-authorization-v1.4.5...nestjs-authorization-v1.4.6) (2021-02-09)
 
 
