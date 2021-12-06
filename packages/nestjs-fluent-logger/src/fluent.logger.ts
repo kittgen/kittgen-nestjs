@@ -5,18 +5,22 @@ export class FluentLogger extends Logger {
   readonly keyValueSeparator: string;
   readonly entrySeparator: string;
   readonly stringQuote: string;
-  readonly defaultRedactionStrategy: (input: any) => string
+  readonly defaultRedactionStrategy: (input: any) => string;
 
   constructor(
     context?: string,
     isTimestampEnabled?: boolean,
     options?: FluentLoggerOptions
   ) {
-    super(context, isTimestampEnabled);
+    if (context) {
+      super(context, { timestamp: isTimestampEnabled });
+    } else {
+      super();
+    }
     this.keyValueSeparator = options?.keyValueSeparator || '=';
     this.entrySeparator = options?.entrySeparator || ' ';
     this.stringQuote = options?.stringQuote || '"';
-    this.defaultRedactionStrategy = options?.defaultRedactionStrategy || fully
+    this.defaultRedactionStrategy = options?.defaultRedactionStrategy || fully;
   }
 
   fluent() {
@@ -27,13 +31,13 @@ export interface FluentLoggerOptions {
   readonly keyValueSeparator?: string;
   readonly entrySeparator?: string;
   readonly stringQuote?: string;
-  readonly defaultRedactionStrategy?: (input: any) => string
+  readonly defaultRedactionStrategy?: (input: any) => string;
 }
 
 export class FluentLogBuilder {
   private entries: string[][] = [];
 
-  constructor(readonly logger: FluentLogger) { }
+  constructor(readonly logger: FluentLogger) {}
 
   add(key: string, value: any): FluentLogBuilder {
     this.entries.push([key, String(value)]);
