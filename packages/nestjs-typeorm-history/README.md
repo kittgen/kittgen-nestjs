@@ -74,11 +74,9 @@ In the `imports` array of your module, add the `TypeOrmHistoryModule`. You have 
 ```ts
 TypeOrmHistoryModule.registerAsync({
   inject: [Connection],
-  useFactory: (connection: Connection) => {
-    return {
-      connection,
-    };
-  },
+  useFactory: (connection: Connection) => ({
+    connection,
+  })
 })
 ```
 
