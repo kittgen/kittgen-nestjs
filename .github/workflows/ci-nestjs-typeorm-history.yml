@@ -40,7 +40,9 @@ jobs:
       - name: Release
         if: success()
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npx npm version 0.0.0-${GITHUB_SHA: -7} --git-tag-version=false
           npm publish --tag=next
