@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
 import {
-  Connection,
   EntitySubscriberInterface,
   getMetadataArgsStorage,
 } from 'typeorm';
@@ -22,8 +20,6 @@ const createSubscriber = (
 @Injectable()
 export class HistoryService {
   constructor(
-    @InjectConnection() connection: Connection,
-    //@ts-ignore
     @Inject(TYPEORM_HISTORY_OPTIONS) options: TypeOrmHistoryModuleOptions
   ) {
     const entities = getMetadataArgsStorage().tables.reduce((acc, t) => {
@@ -40,6 +36,6 @@ export class HistoryService {
       .map(({ entity, history }) => {
         return createSubscriber(entity, history);
       })
-      .forEach(subscriber => connection.subscribers.push(subscriber));
+      .forEach(subscriber => options.connection.subscribers.push(subscriber));
   }
 }
