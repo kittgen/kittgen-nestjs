@@ -3,12 +3,12 @@ name: ci-nestjs-typeorm-history
 on:
   push:
     paths:
-      - 'packages/nestjs-typeorm-history/**'
+      - "packages/nestjs-typeorm-history/**"
     branches:
       - main
   pull_request:
     paths:
-      - 'packages/nestjs-typeorm-history/**'
+      - "packages/nestjs-typeorm-history/**"
     branches:
       - main
 
@@ -37,3 +37,10 @@ jobs:
         run: npm ci
       - name: npm test
         run: npm test
+      - name: Release
+        if: success()
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx npm version 0.0.0-${GITHUB_SHA: -7} --git-tag-version=false
+          npm publish --tag=next
