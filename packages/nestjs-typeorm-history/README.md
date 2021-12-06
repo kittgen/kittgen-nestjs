@@ -69,10 +69,17 @@ entities: [User, UserHistory],
 
 ### Register the module
 
-In the `imports` array of your module, add the `TypeOrmHistoryModule`.
+In the `imports` array of your module, add the `TypeOrmHistoryModule`. You have to provide the TypeORM connection.
 
 ```ts
- TypeOrmHistoryModule.register()
+TypeOrmHistoryModule.registerAsync({
+  inject: [Connection],
+  useFactory: (connection: Connection) => {
+    return {
+      connection,
+    };
+  },
+})
 ```
 
 ## Local Development
