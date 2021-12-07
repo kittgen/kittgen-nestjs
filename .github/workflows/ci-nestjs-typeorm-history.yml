@@ -38,6 +38,23 @@ jobs:
         run: npm ci
       - name: npm test
         run: npm test
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+    permissions:
+      contents: read
+      packages: write
+    needs: test
+    env:
+      CI: true
+      NODE_ENV: production
+    steps:
+      - name: Build
+        if: success()
+        env:
+          CI: true
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run build
       - name: Release
         if: success()
         env:
