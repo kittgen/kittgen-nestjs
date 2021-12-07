@@ -19,6 +19,7 @@ npm i @kittgen/nestjs-typeorm-history
 ### Declare your history entity
 
 ```ts
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 import {
   HistoryFor,
   HistoryActionType,
