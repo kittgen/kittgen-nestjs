@@ -26,23 +26,23 @@ export const createHistorySubscriber = <E, H extends Record<string, any>>(
 @EventSubscriber()
 export class HistoryEntitySubscriber<E, H extends Record<string, any>>
   implements HistoryEntitySubscriberInterface<E, H> {
-  constructor(readonly entity: Function, readonly historyEntity: Function) {}
+  constructor(readonly entity: Function, readonly historyEntity: Function) { }
 
   public beforeInsertHistory(history: H): H | Promise<H> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterInsertHistory(_history: H): void | Promise<void> {}
+  public afterInsertHistory(_history: H): void | Promise<void> { }
   public beforeUpdateHistory(history: H): H | Promise<H> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterUpdateHistory(_history: H): void | Promise<void> {}
+  public afterUpdateHistory(_history: H): void | Promise<void> { }
   public beforeRemoveHistory(history: H): H | Promise<H> {
     return history;
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  public afterRemoveHistory(_history: H): void | Promise<void> {}
+  public afterRemoveHistory(_history: H): void | Promise<void> { }
 
   public listenTo(): Function {
     return this.entity;
@@ -91,7 +91,7 @@ export class HistoryEntitySubscriber<E, H extends Record<string, any>>
       this.beforeUpdateHistory,
       this.afterUpdateHistory,
       HistoryActionType.Updated,
-      event.entity
+      event.entity as E
     );
   }
 
