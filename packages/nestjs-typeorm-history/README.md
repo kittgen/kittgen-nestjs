@@ -1,6 +1,6 @@
 # Kittgen TypeORM History
 
-TypeORM based module for keeping a histories of an entities.
+TypeORM based module for keeping histories of entities.
 
 [Check the main page for Kittgen](https://github.com/kittgen/kittgen-nestjs) for further information.
 
