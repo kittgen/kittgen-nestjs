@@ -31,6 +31,10 @@ import {
 @HistoryFor(User) 
 export class UserHistory {
 
+  // some ID column
+  @PrimaryGeneratedColumn()
+  id: string;
+
   @SnapshotColumn({ type: 'jsonb' })
   payload: User
 
@@ -56,7 +60,6 @@ You don't need to use `jsonb`, alternatively you can also use embedded entities:
 @Column(() => User, { prefix: 'user' })
 payload: User;
 ```
-
 
 Dont't forget to make your history entities known to TypeORM by adding them to the `entities`
 property.
