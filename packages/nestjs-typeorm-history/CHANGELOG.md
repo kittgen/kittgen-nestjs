@@ -1,3 +1,20 @@
+# [@kittgen/nestjs-typeorm-history-v2.0.0](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.3...nestjs-typeorm-history-v2.0.0) (2021-12-07)
+
+
+### Bug Fixes
+
+* **hist:** failure if no `MappedColumn`s ([#54](https://github.com/kittgen/kittgen-nestjs/issues/54)) ([276879b](https://github.com/kittgen/kittgen-nestjs/commit/276879b7f6db120800269532c55f9fa486e44299))
+* **hist:** fix compile error ([bb3d8df](https://github.com/kittgen/kittgen-nestjs/commit/bb3d8df915709bd1fcc9f7159b04c7353775e640))
+
+
+* fix(hist)!: update options interface ([cc259b3](https://github.com/kittgen/kittgen-nestjs/commit/cc259b3dfedfc4afd73ade5b471a5ca6b8425ac4))
+
+
+### BREAKING CHANGES
+
+* require `connection` in TypeOrm history
+Provide async config
+
 # [@kittgen/nestjs-typeorm-history-v1.0.3](https://github.com/kittgen/kittgen-nestjs/compare/nestjs-typeorm-history-v1.0.2...nestjs-typeorm-history-v1.0.3) (2021-02-04)
 
 
