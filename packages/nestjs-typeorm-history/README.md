@@ -72,6 +72,8 @@ entities: [User, UserHistory],
 In the `imports` array of your module, add the `TypeOrmHistoryModule`. You have to provide the TypeORM connection.
 
 ```ts
+import { TypeOrmHistoryModule } from '@kittgen/nestjs-typeorm-history';
+
 TypeOrmHistoryModule.registerAsync({
   inject: [Connection],
   useFactory: (connection: Connection) => ({
