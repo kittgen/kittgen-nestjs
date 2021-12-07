@@ -11,12 +11,17 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      CI: true
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: 14
+          registry-url: https://registry.npmjs.org
+          scope: "@kittgen"
       - name: load cache
         uses: actions/cache@v1
         id: cache
@@ -36,10 +41,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org
+          scope: "@kittgen"
       - name: load cache
         uses: actions/cache@v1
         id: cache
@@ -61,4 +67,4 @@ jobs:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: 'npx semantic-release'
+        run: "npx semantic-release"
