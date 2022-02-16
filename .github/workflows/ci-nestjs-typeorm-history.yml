@@ -66,10 +66,10 @@ jobs:
         env:
           CI: true
         run: npm run build
-      - name: Release
-        if: success()
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npx npm version 0.0.0-${GITHUB_SHA: -7} --git-tag-version=false
-          npm publish --tag=next
+#      - name: Release
+#        if: success()
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#        run: |
+#          npx npm version 0.0.0-${GITHUB_SHA: -7} --git-tag-version=false
+#          npm publish --tag=next
