@@ -26,7 +26,7 @@
     "@kittgen/nestjs-https-redirect": "file:../../packages/nestjs-https-redirect",
     "@kittgen/nestjs-typeorm-history": "file:../../packages/nestjs-typeorm-history",
     "@nestjs/common": "^8.0.0",
-    "@nestjs/core": "^8.0.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/typeorm": "^8.0.0",
     "@types/uuid": "^8.3.0",
