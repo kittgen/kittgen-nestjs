@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
-    "@nestjs/core": "^8.0.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.0",
     "patch-package": "^6.2.2",
