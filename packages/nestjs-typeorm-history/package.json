@@ -79,7 +79,7 @@
     "patch-package": "^6.2.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.3.0",
-    "typeorm": "^0.2.36"
+    "typeorm": "^0.3.14"
   },
   "jest": {
     "moduleFileExtensions": [
